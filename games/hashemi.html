@@ -1,0 +1,400 @@
+
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>اتم‌ساز</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800;900&display=swap');
+:root{--bg:#071225;--panel:#0d203b;--cyan:#61e7ff;--gold:#ffc857;--muted:#abc3e0;--green:#5af0b0;--red:#ff8996}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top,#173c6a,#071225 65%,#030813);color:#f3f8ff;font-family:Vazirmatn,Tahoma,sans-serif}
+button{font:inherit;cursor:pointer;transition:.15s}
+button:hover{filter:brightness(1.13);transform:translateY(-1px)}
+.hidden{display:none!important}
+.bg{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.formula{position:absolute;color:#7bcfff;font-weight:900;font-size:24px;opacity:.15;text-shadow:0 0 15px #39a9ff;animation:float 9s ease-in-out infinite}
+.formula:nth-child(1){top:12%;left:5%}.formula:nth-child(2){top:28%;right:6%}.formula:nth-child(3){top:70%;left:8%}.formula:nth-child(4){top:84%;right:12%}.formula:nth-child(5){top:8%;right:28%}.formula:nth-child(6){top:55%;right:3%}.formula:nth-child(7){top:45%;left:3%}.formula:nth-child(8){top:91%;left:40%}
+@keyframes float{50%{transform:translateY(-16px) rotate(4deg)}}
+.screen{position:relative;z-index:1;min-height:100vh;padding:20px;display:flex;align-items:center;justify-content:center}
+.panel{position:relative;width:min(1080px,100%);padding:clamp(18px,4vw,38px);border-radius:25px;border:1px solid #5bbdff44;background:linear-gradient(145deg,#102747f5,#06142bf5);box-shadow:0 20px 70px #0008;overflow:hidden}
+.top-menu{position:absolute;right:18px;top:18px}
+.small-btn{background:#19385d;color:#e9f8ff;border:1px solid #4caeea88;border-radius:12px;padding:9px 14px;font-weight:800}
+.logo{font-size:clamp(42px,7vw,72px);font-weight:900;text-align:center;line-height:1.2;background:linear-gradient(100deg,#fff,#69e7ff,#a49aff,#fff);-webkit-background-clip:text;color:transparent;margin:8px 0}
+.subtitle{text-align:center;color:#b8d5f4;margin:0 auto 25px;max-width:650px}
+.atom-logo{width:130px;height:100px;position:relative;margin:8px auto}
+.atom-logo:before,.atom-logo:after{content:"";position:absolute;inset:20px 4px;border:2px solid #57dfff;border-radius:50%;transform:rotate(30deg)}
+.atom-logo:after{transform:rotate(-30deg);border-color:#bd83ff}
+.core{position:absolute;left:calc(50% - 10px);top:calc(50% - 10px);width:20px;height:20px;border-radius:50%;background:var(--gold);box-shadow:0 0 22px var(--gold);z-index:2}
+.primary{display:block;margin:20px auto 0;padding:14px 38px;border-radius:15px;background:linear-gradient(120deg,#168fe8,#6c6aff);color:white;font-weight:900;font-size:19px;border:0}
+.tip{text-align:center;color:#a6bfdc;font-size:13px;margin-top:16px}
+.modal{position:fixed;inset:0;z-index:20;background:#020816cc;backdrop-filter:blur(7px);display:flex;align-items:center;justify-content:center;padding:18px}
+.modal-card{width:min(470px,100%);background:#102746;border:1px solid #5ab9ff66;border-radius:22px;padding:24px;box-shadow:0 20px 70px #0009}
+.modal-card h2{margin:0 0 16px;color:var(--cyan)}
+.guide-list{padding-right:24px;line-height:2.15}
+.faint{display:block;color:#91a9c7;font-size:13px;margin-top:-4px}
+.modal-actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.modal-actions button{padding:10px 18px;border-radius:11px;font-weight:800;border:0}
+.yes{background:linear-gradient(120deg,#168fe8,#6366f1);color:white}
+.no{background:#243d5c;color:white;border:1px solid #496684!important}
+.hud{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.pill{padding:8px 13px;border:1px solid #4d91c566;background:#0a1b32;border-radius:12px;color:#cceaff;font-weight:700}
+.pill strong{color:var(--gold);font-variant-numeric:tabular-nums}
+.exit{background:#54253a;border:1px solid #ff779366;color:#ffdce5;border-radius:11px;padding:9px 13px;font-weight:800}
+.stage-title{text-align:center;margin:8px 0 6px;font-size:clamp(24px,4vw,34px);font-weight:900}
+.stage-sub{text-align:center;color:#b7cce6;margin:0 0 18px}
+.timer-wrap{height:12px;background:#091326;border:1px solid #38577c;border-radius:99px;overflow:hidden;margin-bottom:23px}
+.timer-bar{height:100%;width:100%;background:linear-gradient(90deg,#43f2ba,#6fe8ff,#ffc857);transition:width .2s linear}
+.lab{display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:18px}
+.atom-zone{min-height:405px;position:relative;border:1px solid #3f8fc855;border-radius:20px;background:radial-gradient(circle at center,#153a61aa,#07162c 72%);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.atom-zone:before{content:"";position:absolute;inset:0;background-image:linear-gradient(#53bfff0a 1px,transparent 1px),linear-gradient(90deg,#53bfff0a 1px,transparent 1px);background-size:28px 28px}
+.atom{width:330px;height:330px;position:relative;z-index:1;flex:none}
+.orbit{position:absolute;left:50%;top:50%;border:1.5px solid #5bcfff88;border-radius:50%;transform:translate(-50%,-50%)}
+.orbit.one{width:150px;height:150px;border-color:#60e5ffb0}.orbit.two{width:244px;height:244px}.orbit.three{width:324px;height:324px;border-color:#a0aaff80}
+.nucleus{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:77px;height:77px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#ffdd7b,#ff7a56 70%);box-shadow:0 0 35px #ff934e88;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#421d27;z-index:3}
+.fixedElectron{position:absolute;width:23px;height:23px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#fff,#66e7ff 45%,#1681ff);box-shadow:0 0 15px #55dcffb8;display:flex;align-items:center;justify-content:center;color:#06304e;font-size:11px;font-weight:900;z-index:5;transform:translate(-50%,-50%);pointer-events:none}
+.atom-label{position:absolute;bottom:10px;left:0;right:0;text-align:center;color:#7ea9d3;font-size:12px;z-index:2}
+.side{background:#0a1b31d9;border:1px solid #3b6b9c77;border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:13px}
+.side-heading{color:#85dfff;font-weight:900;font-size:17px}
+.tray{background:#102a49;border:1px dashed #4bb9e9aa;border-radius:14px;padding:13px;text-align:center}
+.tray p{margin:0 0 10px;color:#c0d9f2;font-size:13px}
+.drag-electron{margin:auto;width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#fff,#66e7ff 45%,#1681ff);box-shadow:0 0 20px #55dcff99;display:flex;align-items:center;justify-content:center;color:#06304e;font-weight:900;cursor:grab;touch-action:none;user-select:none}
+.counts{line-height:2.05;color:#b9d4ee;font-size:14px}
+.counts strong{color:white;float:left;font-variant-numeric:tabular-nums}
+.counts hr{border:0;border-top:1px solid #42638a66;margin:8px 0}
+.buttons{display:flex;flex-direction:column;gap:9px;margin-top:auto}
+.buttons button{padding:10px 8px;border-radius:12px;color:white;font-weight:800;border:0}
+.check{background:linear-gradient(120deg,#e58c24,#f34f6b)}
+.delete{background:linear-gradient(120deg,#7e3045,#c64c62)}
+.help{background:linear-gradient(120deg,#2d679e,#5b5de7);border:1px solid #81d8ff55!important}
+.message{min-height:29px;text-align:center;margin-top:14px;color:var(--green);font-weight:800}
+.message.error{color:var(--red)}.message.info{color:#9de5ff}
+.quiz-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;max-width:620px;margin:25px auto}
+.quiz-option{padding:17px;border-radius:15px;background:#102c4c;border:1px solid #478cc4;color:#eaf7ff;font-size:20px;font-weight:900}
+.quiz-option.correct{background:#135c4c;border-color:var(--green)}.quiz-option.wrong{background:#5b2437;border-color:#ff727e}
+.result{text-align:center}
+.result-score{font-size:clamp(35px,7vw,60px);font-weight:900;color:var(--gold);margin:14px}
+.result-note{color:#c5dcf5;line-height:2}
+.result-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.result-actions .primary{margin:20px 0 0}
+.home-btn{background:linear-gradient(120deg,#167b68,#23a58b)}
+@media(max-width:760px){.lab{grid-template-columns:1fr}.atom-zone{min-height:350px}.atom{transform:scale(.88);margin:-20px}.side{display:grid;grid-template-columns:1fr 1fr;align-items:start}.side-heading{grid-column:1/-1}.tray{grid-column:1}.counts{grid-column:2;grid-row:2}.buttons{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr}.help{grid-column:1/-1}.quiz-options{grid-template-columns:1fr}}
+@media(max-width:430px){.side{grid-template-columns:1fr}.tray,.counts,.buttons{grid-column:1;grid-row:auto}.buttons{display:flex}.atom{transform:scale(.78);margin:-35px}.atom-zone{min-height:315px}}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true">
+<span class="formula">H₂O</span><span class="formula">CO₂</span><span class="formula">O₂</span><span class="formula">NaCl</span><span class="formula">NH₃</span><span class="formula">CH₄</span><span class="formula">H₂</span><span class="formula">Fe</span>
+</div>
+
+<section id="menu" class="screen">
+<div class="panel" style="max-width:850px">
+<div class="top-menu"><button class="small-btn" id="guideOpen">راهنما ؟</button></div>
+<div class="atom-logo"><div class="core"></div></div>
+<h1 class="logo">اتم‌ساز</h1>
+<p class="subtitle">به آزمایشگاه شیمی خوش آمدی! الکترون‌ها را در لایه‌های اتم قرار بده و مأموریت را کامل کن.</p>
+<button class="primary" id="startBtn">شروع آزمایش ⚛️</button>
+<p class="tip">سه سؤال، دو دقیقه زمان و یک آزمایشگاه پر از اتم!</p>
+</div>
+</section>
+
+<div id="guideModal" class="modal hidden">
+<div class="modal-card">
+<h2>راهنمای بازی ؟</h2>
+<ol class="guide-list">
+<li>کلاً ۱۲۰ ثانیه بیشتر زمان نداری.<span class="faint">( پس حواست به زمان باشه . )</span></li>
+<li>۳ سؤال بیشتر نیست.</li>
+<li>هرچی زودتر مرحله را تمام کنی، امتیاز بیشتری می‌گیری.</li>
+</ol>
+<div class="modal-actions"><button class="yes" id="guideClose">فهمیدم</button></div>
+</div>
+</div>
+
+<section id="game" class="screen hidden">
+<div class="panel">
+<div class="hud">
+<div class="pill">⏱ زمان: <strong id="timeText">120</strong> ثانیه</div>
+<div class="pill">⭐ امتیاز: <strong id="scoreText">0</strong></div>
+<div class="pill">مرحله: <strong id="stageText">1 / 3</strong></div>
+<button class="exit" id="exitBtn">خروج ✕</button>
+</div>
+<div class="timer-wrap"><div id="timerBar" class="timer-bar"></div></div>
+<h2 id="stageTitle" class="stage-title">سدیم (Na) چند الکترون دارد؟</h2>
+<p id="stageSub" class="stage-sub">الکترون‌ها را در لایه‌های اتم قرار بده و سپس آزمایش را بررسی کن.</p>
+
+<div id="atomGame" class="lab">
+<div class="atom-zone" id="atomZone">
+<div class="atom" id="atom">
+<div class="orbit one"></div><div class="orbit two"></div><div class="orbit three"></div>
+<div class="nucleus" id="nucleus">Na</div>
+</div>
+<div class="atom-label">الکترون را بکش و روی یکی از لایه‌ها رها کن</div>
+</div>
+<aside class="side">
+<div class="side-heading">🧪 میز آزمایش</div>
+<div class="tray"><p>الکترون را از اینجا بکش</p><div id="trayElectron" class="drag-electron">e⁻</div></div>
+<div class="counts">
+لایه ۱: <strong id="layer1">0</strong><br>
+لایه ۲: <strong id="layer2">0</strong><br>
+لایه ۳: <strong id="layer3">0</strong><hr>
+مجموع الکترون‌ها: <strong id="totalElectrons">0</strong>
+</div>
+<div class="buttons">
+<button class="check" id="checkBtn">🔬 بررسی آزمایش</button>
+<button class="delete" id="deleteBtn">🗑️ حذف آخرین الکترون</button>
+<button class="help" id="helpBtn">کمک !</button>
+</div>
+</aside>
+</div>
+
+<div id="message" class="message" role="status"></div>
+<div id="quizArea" class="hidden">
+<div class="atom-logo"><div class="core"></div></div>
+<h2 class="stage-title">سدیم و کلر با هم چه ترکیبی می‌سازند؟</h2>
+<p class="stage-sub">یک پاسخ را انتخاب کن.</p>
+<div class="quiz-options">
+<button class="quiz-option" data-answer="H₂O">H₂O — آب</button>
+<button class="quiz-option" data-answer="NaCl">NaCl — نمک خوراکی</button>
+<button class="quiz-option" data-answer="CO₂">CO₂ — کربن‌دی‌اکسید</button>
+<button class="quiz-option" data-answer="O₂">O₂ — اکسیژن</button>
+</div>
+</div>
+</div>
+</section>
+
+<section id="resultScreen" class="screen hidden">
+<div class="panel result" style="max-width:760px">
+<div class="atom-logo"><div class="core"></div></div>
+<h1 class="logo" id="resultTitle">آزمایش تمام شد!</h1>
+<div class="result-score" id="finalScore">0 امتیاز</div>
+<p class="result-note" id="resultNote"></p>
+<div class="result-actions">
+<button class="primary" id="restartBtn">بازی دوباره 🔄</button>
+<button class="primary home-btn" id="homeBtn">برگشت به خانه 🏠</button>
+</div>
+</div>
+</section>
+
+<div id="confirmModal" class="modal hidden">
+<div class="modal-card">
+<h2>کمک می‌خوای؟</h2>
+<p id="confirmText" style="line-height:1.9;color:#d8eaff">اگه می‌خوای کمکت کنم ۱۰۰ امتیاز ازت می‌گیرم.</p>
+<div class="modal-actions">
+<button class="yes" id="confirmYes">باشه</button>
+<button class="no" id="confirmNo">نمی‌خوام</button>
+</div>
+</div>
+</div>
+
+<script>
+(()=>{
+const $=id=>document.getElementById(id);
+const menu=$('menu'),game=$('game'),result=$('resultScreen'),atom=$('atom'),nucleus=$('nucleus'),tray=$('trayElectron');
+
+const stages=[
+{symbol:'Na',title:'سدیم (Na) چند الکترون دارد؟',sub:'الکترون‌ها را در لایه‌های اتم قرار بده. وقتی آماده شدی، آزمایش را بررسی کن.',answer:[2,8,1],total:11},
+{symbol:'Cl',title:'کلر (Cl) چند الکترون دارد؟',sub:'الکترون‌ها را در لایه‌های اتم قرار بده. وقتی آماده شدی، آزمایش را بررسی کن.',answer:[2,8,7],total:17}
+];
+
+let stage=0,score=0,time=120,timer=null,history=[],helpUses=0,locked=false,over=false,drag=null;
+
+$('guideOpen').onclick=()=>$('guideModal').classList.remove('hidden');
+$('guideClose').onclick=()=>$('guideModal').classList.add('hidden');
+$('guideModal').addEventListener('click',e=>{if(e.target===$('guideModal'))$('guideModal').classList.add('hidden')});
+
+$('startBtn').onclick=start;
+$('restartBtn').onclick=start;
+$('homeBtn').onclick=home;
+$('exitBtn').onclick=()=>finish('بازی را ترک کردی!');
+$('checkBtn').onclick=check;
+$('deleteBtn').onclick=del;
+$('helpBtn').onclick=askHelp;
+$('confirmNo').onclick=()=>$('confirmModal').classList.add('hidden');
+$('confirmYes').onclick=help;
+document.querySelectorAll('.quiz-option').forEach(b=>b.onclick=()=>quiz(b));
+
+function start(){
+clearInterval(timer);
+stage=0;score=0;time=120;history=[];helpUses=0;locked=false;over=false;
+menu.classList.add('hidden');result.classList.add('hidden');game.classList.remove('hidden');
+$('atomGame').classList.remove('hidden');$('quizArea').classList.add('hidden');
+$('message').textContent='';
+hud();loadStage();timer=setInterval(tick,1000);
+}
+
+function tick(){
+if(over)return;
+time=Math.max(0,time-1);hud();
+if(time===0)finish('زمانت تمام شد!');
+}
+
+function home(){
+clearInterval(timer);over=true;
+$('confirmModal').classList.add('hidden');
+$('guideModal').classList.add('hidden');
+game.classList.add('hidden');result.classList.add('hidden');menu.classList.remove('hidden');
+}
+
+function hud(){
+$('timeText').textContent=time;
+$('scoreText').textContent=score;
+$('stageText').textContent=(stage+1)+' / 3';
+$('timerBar').style.width=(time/120*100)+'%';
+if(time<=10)$('timerBar').style.background='linear-gradient(90deg,#ff5368,#ff9e57)';
+}
+
+function msg(t,type=''){
+const m=$('message');m.textContent=t;m.className='message'+(type?' '+type:'');
+}
+
+function loadStage(){
+locked=false;history=[];helpUses=0;
+let s=stages[stage];
+$('stageTitle').textContent=s.title;
+$('stageSub').textContent=s.sub;
+nucleus.textContent=s.symbol;
+$('atomGame').classList.remove('hidden');
+$('quizArea').classList.add('hidden');
+$('checkBtn').disabled=false;$('deleteBtn').disabled=false;
+$('helpBtn').classList.remove('hidden');
+atom.querySelectorAll('.placedElectron').forEach(e=>e.remove());
+counts();msg('الکترون‌ها را بکش و در لایه‌ها قرار بده.','info');
+}
+
+function layerAt(x,y){
+let r=atom.getBoundingClientRect(),dx=x-(r.left+r.width/2),dy=y-(r.top+r.height/2),d=Math.hypot(dx,dy);
+if(d<r.width*.29)return 1;
+if(d<r.width*.43)return 2;
+if(d<r.width*.51)return 3;
+return 0;
+}
+
+function add(layer){
+let n=atom.querySelectorAll('.placedElectron[data-layer="'+layer+'"]').length;
+let e=document.createElement('div');
+e.className='fixedElectron placedElectron';e.dataset.layer=layer;e.textContent='−';
+let a=(n*137.5+layer*31)*Math.PI/180,r=layer===1?75:layer===2?122:162,c=165;
+e.style.left=(c+Math.cos(a)*r)+'px';
+e.style.top=(c+Math.sin(a)*r)+'px';
+atom.appendChild(e);history.push(e);counts();
+}
+
+function counts(){
+let total=0;
+[1,2,3].forEach(i=>{
+let n=atom.querySelectorAll('.placedElectron[data-layer="'+i+'"]').length;
+$('layer'+i).textContent=n;total+=n;
+});
+$('totalElectrons').textContent=total;
+}
+
+function del(){
+if(locked||over)return;
+let e=history.pop();
+if(!e){msg('هنوز الکترونی قرار نداده‌ای.','error');return}
+e.remove();counts();msg('آخرین الکترون حذف شد.','info');
+}
+
+function check(){
+if(locked||over)return;
+let c=[1,2,3].map(i=>atom.querySelectorAll('.placedElectron[data-layer="'+i+'"]').length);
+let a=stages[stage].answer;
+if(c.every((v,i)=>v===a[i])){
+score+=300;hud();locked=true;
+msg('آفرین! آرایش الکترونی درست است. +300 امتیاز');
+$('checkBtn').disabled=true;$('deleteBtn').disabled=true;$('helpBtn').classList.add('hidden');
+setTimeout(()=>{
+if(over)return;
+stage++;
+if(stage<2)loadStage();else quizScreen();
+hud();
+},800);
+}else msg('آرایش درست نیست؛ دوباره امتحان کن.','error');
+}
+
+function quizScreen(){
+locked=false;
+$('stageText').textContent='3 / 3';
+$('stageTitle').textContent='سؤال سوم: ترکیب شیمیایی';
+$('stageSub').textContent='سدیم و کلر با هم چه ترکیبی می‌سازند؟';
+$('atomGame').classList.add('hidden');$('quizArea').classList.remove('hidden');
+$('helpBtn').classList.add('hidden');
+msg('پاسخ درست را انتخاب کن.','info');
+document.querySelectorAll('.quiz-option').forEach(b=>{b.disabled=false;b.classList.remove('correct','wrong')});
+}
+
+function quiz(b){
+if(locked||over)return;
+locked=true;
+document.querySelectorAll('.quiz-option').forEach(x=>x.disabled=true);
+if(b.dataset.answer==='NaCl'){
+b.classList.add('correct');score+=500;
+msg('درست است! NaCl نمک خوراکی است. +500 امتیاز');
+setTimeout(()=>finish('تبریک! آزمایش را کامل کردی.'),800);
+}else{
+b.classList.add('wrong');
+document.querySelector('[data-answer="NaCl"]').classList.add('correct');
+msg('پاسخ درست NaCl است.','error');
+setTimeout(()=>finish('به پایان بازی رسیدی!'),1300);
+}
+hud();
+}
+
+function askHelp(){
+if(over||locked||stage>1)return;
+let cost=helpUses===0?100:200;
+$('confirmText').textContent=helpUses===0?'اگه می‌خوای کمکت کنم ۱۰۰ امتیاز ازت می‌گیرم.':'اگه می‌خوای کمکت کنم ۲۰۰ امتیاز ازت می‌گیرم.';
+$('confirmModal').classList.remove('hidden');
+}
+
+function help(){
+if(over)return;
+$('confirmModal').classList.add('hidden');
+let s=stages[stage],cost=helpUses===0?100:200;
+score-=cost;helpUses++;hud();
+if(helpUses===1)msg('راهنما: '+s.symbol+' در مجموع '+s.total+' الکترون دارد.','info');
+else msg('تعداد الکترون‌ها در لایه‌ها: لایه ۱ = '+s.answer[0]+'، لایه ۲ = '+s.answer[1]+'، لایه ۳ = '+s.answer[2]+'.','info');
+}
+
+function finish(message){
+if(over)return;
+over=true;clearInterval(timer);
+$('confirmModal').classList.add('hidden');$('guideModal').classList.add('hidden');
+menu.classList.add('hidden');game.classList.add('hidden');result.classList.remove('hidden');
+if(time>0&&stage>=2){
+let bonus=time*10;score+=bonus;
+message+=' جایزه سرعت: +'+bonus+' امتیاز.';
+}
+$('resultTitle').textContent=time>0&&stage>=2?'آزمایش تمام شد!':'اتمام بازی';
+$('finalScore').textContent=score+' امتیاز';
+let rate=score>=1000?'شیمی‌دان حرفه‌ای! ⚛️':score>=500?'آفرین، آزمایشگاه‌دار! 🧪':score>=0?'تلاش خوبی بود؛ دوباره امتحان کن!':'امتیازت منفی شد، ولی می‌تونی دوباره تلاش کنی!';
+$('resultNote').textContent=message+' '+rate+' زمان باقی‌مانده: '+time+' ثانیه.';
+}
+
+tray.addEventListener('pointerdown',e=>{
+if(over||locked||stage>1)return;
+e.preventDefault();tray.setPointerCapture(e.pointerId);
+drag={id:e.pointerId,x:e.clientX,y:e.clientY,moved:false};
+tray.style.opacity='.55';
+});
+
+tray.addEventListener('pointermove',e=>{
+if(!drag||drag.id!==e.pointerId)return;
+if(Math.abs(e.clientX-drag.x)+Math.abs(e.clientY-drag.y)>5)drag.moved=true;
+});
+
+tray.addEventListener('pointerup',e=>{
+if(!drag||drag.id!==e.pointerId)return;
+let moved=drag.moved;drag=null;tray.style.opacity='1';
+if(!moved)return;
+let l=layerAt(e.clientX,e.clientY);
+if(l){add(l);msg('الکترون اضافه شد ⚡','info')}
+else msg('الکترون را روی یکی از لایه‌های اتم رها کن.','error');
+});
+
+tray.addEventListener('pointercancel',()=>{drag=null;tray.style.opacity='1'});
+})();
+</script>
+</body>
+</html>
