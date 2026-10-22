@@ -14,6 +14,7 @@
   --f-body:Vazirmatn,Tahoma,"Segoe UI",sans-serif; --f-display:Lalezar,Vazirmatn,Tahoma,sans-serif;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{scroll-behavior:smooth}
 body{margin:0;min-height:100vh;color:var(--ink);font-family:var(--f-body);line-height:1.8;
   background-color:var(--paper);
@@ -61,6 +62,18 @@ h1{font-family:var(--f-display);font-weight:400;font-size:clamp(52px,11vw,124px)
 @keyframes snap{from{opacity:0;transform:rotate(-198deg) scaleY(.5) scale(.6)}to{opacity:1;transform:rotate(-18deg) scaleY(.5) scale(1)}}
 .tile.mine .btn{background:#fff;color:var(--ink);border-color:#fff}
 .tile.mine .vote{border:2px solid #FFD36B;background:#FFD36B;color:var(--ink)}
+.tile.win{border-color:#E8A317;box-shadow:5px 5px 0 #E8A317}
+.badge{display:inline-block;padding:1px 9px;border-radius:99px;background:#E8A317;color:var(--ink);font-weight:700;font-size:12px}
+.winner{margin:6px 0 34px;padding:clamp(28px,6vw,64px) clamp(16px,4vw,48px);text-align:center;background:var(--ink);color:#fff;border-radius:18px;border:2px solid var(--ink);box-shadow:8px 8px 0 #E8A317;position:relative;overflow:hidden}
+.winner[hidden]{display:none}
+.winner .w-top{font-size:clamp(15px,2.6vw,20px);color:#B7C2D6;margin:0 0 6px}
+.winner .w-lbl{display:inline-block;margin:0 0 6px;padding:2px 16px;border-radius:99px;background:#E8A317;color:var(--ink);font-weight:700;font-size:clamp(14px,2.4vw,18px)}
+.winner .w-name{font-family:var(--f-display);font-weight:400;font-size:clamp(54px,13vw,150px);line-height:1.15;margin:8px 0 4px;color:#FFD36B;overflow-wrap:anywhere;animation:pop .8s cubic-bezier(.2,.8,.2,1) both}
+.winner .w-sub{margin:10px 0 0;font-size:clamp(14px,2.2vw,17px);color:#B7C2D6}
+@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:none}}
+.winner .dot{position:absolute;left:14px;bottom:14px;background:#fff}
+.btn.danger{background:#CF3F2A;border-color:#CF3F2A;color:#fff}
+.btn.gold{background:#E8A317;border-color:#E8A317;color:var(--ink)}
 .empty{grid-column:1/-1;padding:40px 0;color:var(--ink2)}
 
 /* bottom bar */
@@ -107,7 +120,7 @@ dialog p{margin:0 0 10px;color:var(--ink2);font-size:14.5px}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .tile.in,.tile.mine .orbit{animation:none}
-  .btn,.toast{transition:none}
+  .btn,.toast,.winner .w-name{transition:none;animation:none}
 }
 </style>
 </head>
@@ -115,14 +128,16 @@ dialog p{margin:0 0 10px;color:var(--ink2);font-size:14.5px}
 <div class="wrap">
   <header class="hero">
     <h1>بازی‌های علوم</h1>
-    <p class="lead">بازی‌های علمی ساخته‌شده توسط دانش‌آموزان را اجرا کن و به بهترین پروژه رأی بده.</p>
-    <p class="rule">هر نفر فقط یک رأی دارد. رأی بعد از ثبت قفل می‌شود؛ اگر نظرت عوض شد، رأی را پس بگیر و دوباره انتخاب کن.</p>
-    <div class="tools">
+    <p class="lead" id="lead">بازی‌های علمی ساخته‌شده توسط دانش‌آموزان را اجرا کن و به بهترین پروژه رأی بده.</p>
+    <p class="rule" id="rule">هر نفر فقط یک رأی دارد. رأی بعد از ثبت قفل می‌شود؛ اگر نظرت عوض شد، رأی را پس بگیر و دوباره انتخاب کن.</p>
+    <div class="tools" id="tools">
       <label class="search"><input id="search" type="search" placeholder="جست‌وجوی نام دانش‌آموز" aria-label="جست‌وجوی نام دانش‌آموز" autocomplete="off"></label>
       <span class="count" id="count"></span>
     </div>
   </header>
-  <main><section class="grid" id="grid" aria-label="فهرست پروژه‌ها"></section></main>
+  <main>
+  <section class="winner" id="winner" hidden aria-live="polite"></section>
+  <section class="grid" id="grid" aria-label="فهرست پروژه‌ها"></section></main>
   <footer class="foot"><span>نمایشگاه پروژه‌های علوم</span><button class="dot" id="adminDot" aria-label="ورود مدیر" title=""></button></footer>
 </div>
 
@@ -259,8 +274,39 @@ const PROJECTS = [
   "name": "کندری",
   "kind": "pc",
   "url": "downloads/atoms_quiz.exe"
+ },
+ {
+  "id": "ahmadzadeh",
+  "name": "احمد زاده",
+  "kind": "web",
+  "urls": [
+   [
+    "نسخه ۱",
+    "games/ahmadzadeh-v1.html"
+   ],
+   [
+    "نسخه ۲",
+    "games/ahmadzadeh-v2.html"
+   ]
+  ]
+ },
+ {
+  "id": "omidvar",
+  "name": "امیدوار",
+  "kind": "pc",
+  "url": "downloads/omidvar.pptx"
+ },
+ {
+  "id": "sharifzadeh",
+  "name": "شریف زاده",
+  "kind": "web",
+  "url": "games/sharifzadeh.html"
  }
 ];
+
+/* اگر true باشد، بعد از پایان نظرسنجی هم فهرست بازی‌ها زیر اعلام برنده دیده می‌شود (فقط دکمه‌های رأی برداشته می‌شوند).
+   اگر false باشد، فقط صفحه‌ی برنده نمایش داده می‌شود. */
+const SHOW_GAMES_AFTER_END = true;
 
 const CFG = window.APP_CONFIG || {};
 const REMOTE = !!(CFG.SUPABASE_URL && CFG.SUPABASE_ANON_KEY);
@@ -283,26 +329,43 @@ const api = REMOTE ? {
   my:      () => rpc('my_vote'),
   cast:    id => rpc('cast_vote', {p_project:id}),
   retract: () => rpc('retract_vote'),
-  admin:   (u,p) => rpc('admin_results', {p_user:u, p_pass:p})
+  admin:   (u,p) => rpc('admin_results', {p_user:u, p_pass:p}),
+  status:  () => rpc('poll_status'),
+  reset:   (u,p) => rpc('admin_reset_votes', {p_user:u, p_pass:p}),
+  end:     (u,p) => rpc('admin_end_poll', {p_user:u, p_pass:p}),
+  restart: (u,p) => rpc('admin_restart_poll', {p_user:u, p_pass:p})
 } : {
   async my(){ return {project: LS.get('sa_vote')}; },
   async cast(id){
+    if (localState().ended) return {ok:false, error:'ended'};
     const cur = LS.get('sa_vote');
     if (cur) return {ok:false, error:'already_voted', project:cur};
     const t = localTally(); t[id] = (t[id]||0) + 1; LS.set('sa_tally', JSON.stringify(t)); LS.set('sa_vote', id);
     return {ok:true, project:id};
   },
   async retract(){
+    if (localState().ended) return {ok:false, error:'ended'};
     const cur = LS.get('sa_vote');
     if (cur){ const t = localTally(); t[cur] = Math.max(0,(t[cur]||0)-1); LS.set('sa_tally', JSON.stringify(t)); LS.del('sa_vote'); }
     return {ok:true};
   },
-  async admin(){
-    const t = localTally();
-    const rows = PROJECTS.map(p => ({id:p.id, name:p.name, votes:t[p.id]||0})).sort((a,b)=>b.votes-a.votes);
-    return {ok:true, local:true, total: rows.reduce((s,r)=>s+r.votes,0), rows};
-  }
+  async admin(){ return localResults(); },
+  async status(){ const s = localState(); return {ended:!!s.ended, winners:s.winners||[]}; },
+  async reset(){ LS.del('sa_tally'); LS.del('sa_vote'); return localResults(); },
+  async end(){
+    const r = localResults(), top = r.rows.length ? r.rows[0].votes : 0;
+    const winners = top > 0 ? r.rows.filter(x=>x.votes===top).map(x=>({id:x.id, name:x.name})) : [];
+    LS.set('sa_state', JSON.stringify({ended:true, winners}));
+    return localResults();
+  },
+  async restart(){ LS.del('sa_tally'); LS.del('sa_vote'); LS.del('sa_state'); return localResults(); }
 };
+function localState(){ try{ return JSON.parse(LS.get('sa_state')||'{}'); }catch(e){ return {}; } }
+function localResults(){
+  const t = localTally();
+  const rows = PROJECTS.map(p => ({id:p.id, name:p.name, votes:t[p.id]||0})).sort((a,b)=>b.votes-a.votes);
+  return {ok:true, local:true, ended:!!localState().ended, total: rows.reduce((s,r)=>s+r.votes,0), rows};
+}
 
 /* ===== ابزارها ===== */
 const $ = id => document.getElementById(id);
@@ -310,6 +373,8 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>'
 const fa = n => Number(n).toLocaleString('fa-IR');
 const HUES = ['#1F4FBF','#0B7A6E','#CF3F2A','#5B3AB0','#B87400','#2E7D32'];
 let myVote = null, busy = false, firstDraw = true, query = '';
+let poll = {ended:false, winners:[]};
+const winIds = () => new Set((poll.winners||[]).map(w=>w.id));
 
 let tt;
 function toast(t){ const e=$('toast'); e.textContent=t; e.classList.add('show'); clearTimeout(tt); tt=setTimeout(()=>e.classList.remove('show'),3200); }
@@ -318,7 +383,8 @@ function nameOf(id){ const p = PROJECTS.find(x=>x.id===id); return p ? p.name : 
 
 /* ===== رسم کارت‌ها ===== */
 function tileHTML(p, i){
-  const mine = myVote === p.id, locked = !!myVote && !mine;
+  const ended = poll.ended, isWin = ended && winIds().has(p.id);
+  const mine = !ended && myVote === p.id, locked = !ended && !!myVote && !mine;
   const kindLabel = p.kind==='pc' ? 'فقط کامپیوتر' : p.kind==='link' ? 'وب‌سایت' : 'بازی وب';
   let plays;
   if (p.kind==='pc')        plays = `<button class="btn" data-dl="${esc(p.id)}">دانلود برای کامپیوتر</button>`;
@@ -326,12 +392,13 @@ function tileHTML(p, i){
   else if (p.urls)          plays = p.urls.map(u=>`<a class="btn" href="${esc(u[1])}">${esc(u[0])}</a>`).join('');
   else                      plays = `<a class="btn" href="${esc(p.url)}">اجرای بازی</a>`;
   let vote;
-  if (mine)        vote = `<button class="vote" data-retract>رأی من ثبت شد · پس گرفتن</button>`;
+  if (ended)       vote = '';
+  else if (mine)        vote = `<button class="vote" data-retract>رأی من ثبت شد · پس گرفتن</button>`;
   else if (locked) vote = `<button class="vote" disabled title="اول رأی قبلی را پس بگیر">رأی قفل است</button>`;
   else             vote = `<button class="vote" data-vote="${esc(p.id)}">رأی به این پروژه</button>`;
   const d = firstDraw ? ` in" style="--h:${HUES[i%HUES.length]};--d:${Math.min(i,14)*40}ms` : `" style="--h:${HUES[i%HUES.length]}`;
-  return `<article class="tile${mine?' mine':''}${locked?' locked':''}${d}">
-    <div class="meta"><span class="kind">${kindLabel}</span></div>
+  return `<article class="tile${mine?' mine':''}${locked?' locked':''}${isWin?' win':''}${d}">
+    <div class="meta"><span class="kind">${kindLabel}</span>${isWin?'<span class="badge">برنده</span>':''}</div>
     <div class="symbol" aria-hidden="true"><i class="orbit"></i><span>${esc(symbolOf(p.name))}</span></div>
     <h2 class="name">${esc(p.name)}</h2>
     <div class="plays">${plays}</div>${vote}</article>`;
@@ -342,17 +409,50 @@ function draw(){
   $('count').textContent = fa(PROJECTS.length) + ' پروژه';
   $('grid').innerHTML = list.map(([p,i])=>tileHTML(p,i)).join('') || '<div class="empty">پروژه‌ای با این نام پیدا نشد.</div>';
   firstDraw = false;
-  $('bar').classList.toggle('show', !!myVote);
+  $('bar').classList.toggle('show', !!myVote && !poll.ended);
   if (myVote) $('barName').textContent = nameOf(myVote);
+  drawWinner();
+}
+function drawWinner(){
+  const w = $('winner'), ended = poll.ended;
+  w.hidden = !ended;
+  ['lead','rule'].forEach(id => $(id).hidden = ended);
+  const showGames = !ended || SHOW_GAMES_AFTER_END;
+  $('tools').hidden = !showGames; $('grid').hidden = !showGames;
+  if (!ended){ w.innerHTML = ''; return; }
+  const ws = (poll.winners||[]).map(x => nameOf(x.id) || x.name).filter(Boolean);
+  const key = ws.join('|');
+  if (w.dataset.key === key && w.innerHTML) return;
+  w.dataset.key = key;
+  let inner;
+  if (!ws.length) inner = `<p class="w-top">نظرسنجی بازی‌های علوم به پایان رسید</p><div class="w-name" style="font-size:clamp(34px,8vw,80px)">رأیی ثبت نشد</div>`;
+  else inner = `<p class="w-top">نظرسنجی بازی‌های علوم به پایان رسید</p>
+    <span class="w-lbl">${ws.length>1?'برنده‌ها (مساوی)':'برنده نظرسنجی'}</span>
+    <div class="w-name">${ws.map(esc).join(' و ')}</div>
+    <p class="w-sub">تبریک به برنده! از همه‌ی دانش‌آموزان برای ساخت بازی‌ها و رأی‌دادن ممنونیم.</p>`;
+  w.innerHTML = inner + '<button class="dot" id="adminDot2" aria-label="ورود مدیر"></button>';
+  $('adminDot2').addEventListener('click', openAdmin);
+}
+async function refreshStatus(){
+  try{
+    const s = await api.status();
+    if (s && typeof s.ended === 'boolean'){
+      const was = poll.ended;
+      poll = {ended:s.ended, winners:s.winners||[]};
+      if (was && !poll.ended){ try{ const r = await api.my(); myVote = (r && r.project) || null; }catch(e){ myVote = null; } }
+      draw();
+    }
+  }catch(e){}
 }
 
 /* ===== رأی دادن و پس گرفتن ===== */
-const ERR = {no_ip:'آی‌پی شما تشخیص داده نشد؛ رأی ثبت نشد.', bad_project:'این پروژه در فهرست رأی‌گیری نیست.'};
+const ERR = {ended:'نظرسنجی تمام شده است.', no_ip:'آی‌پی شما تشخیص داده نشد؛ رأی ثبت نشد.', bad_project:'این پروژه در فهرست رأی‌گیری نیست.'};
 async function doVote(id){
   if (busy) return; busy = true;
   try{
     const r = await api.cast(id);
     if (r.ok){ myVote = r.project; draw(); toast('رأی شما برای «'+nameOf(id)+'» ثبت شد.'); }
+    else if (r.error==='ended'){ await refreshStatus(); toast('نظرسنجی تمام شده است.'); }
     else if (r.error==='already_voted'){ myVote = r.project; draw(); toast('با این اتصال قبلاً رأی داده شده است. اول رأی قبلی را پس بگیر.'); }
     else toast(ERR[r.error] || 'رأی ثبت نشد. دوباره تلاش کن.');
   }catch(e){ toast('ارتباط با سرور برقرار نشد. دوباره تلاش کن.'); }
@@ -363,7 +463,7 @@ function askRetract(){
     <div class="acts"><button class="btn" id="yes">پس گرفتن رأی</button><button class="btn alt" data-close>نه، بماند</button></div>`,
     d => d.querySelector('#yes').addEventListener('click', async () => {
       if (busy) return; busy = true;
-      try{ const r = await api.retract(); if (r.ok){ myVote = null; draw(); toast('رأی شما پس گرفته شد.'); } else toast(ERR[r.error]||'انجام نشد.'); }
+      try{ const r = await api.retract(); if (r.ok){ myVote = null; draw(); toast('رأی شما پس گرفته شد.'); } else { if (r.error==='ended') refreshStatus(); toast(ERR[r.error]||'انجام نشد.'); } }
       catch(e){ toast('ارتباط با سرور برقرار نشد.'); }
       busy = false; d.close();
     }));
@@ -375,10 +475,13 @@ function startDownload(url){
   document.body.appendChild(a); a.click(); a.remove();
 }
 async function pcDownload(p){
-  const isExe = /\.exe$/i.test(p.url);
+  const isExe = /\.exe$/i.test(p.url), isPpt = /\.pptx?$/i.test(p.url);
   const how = isExe
     ? 'بعد از دریافت، فایل را روی کامپیوتر دوبار کلیک کن تا اجرا شود. اگر ویندوز هشدار داد، «More info» و بعد «Run anyway» را بزن.'
+    : isPpt
+    ? 'این فایل یک ارائه‌ی پاورپوینت است. بعد از دریافت، آن را روی کامپیوتر با PowerPoint باز کن و حالت نمایش اسلاید را اجرا کن.'
     : 'فایل فشرده است. بعد از دریافت، آن را روی کامپیوتر با WinRAR یا 7-Zip باز کن و فایل برنامه را اجرا کن.';
+  const what = isPpt ? 'ارائه‌ی پاورپوینت است و باید روی کامپیوتر باز شود' : 'نسخه‌ی ویندوز است و روی گوشی اجرا نمی‌شود';
   let missing = false;
   try{ const r = await fetch(p.url, {method:'HEAD'}); if (r.status===404) missing = true; }catch(e){}
   if (missing){
@@ -386,7 +489,7 @@ async function pcDownload(p){
     return;
   }
   openDialog(`<h2>این فایل فقط با کامپیوتر باز می‌شود</h2>
-    <p>«${esc(p.name)}» نسخه‌ی ویندوز است و روی گوشی اجرا نمی‌شود. دانلود همین حالا شروع شد.</p><p>${how}</p>
+    <p>«${esc(p.name)}» ${what}. دانلود همین حالا شروع شد.</p><p>${how}</p>
     <div class="acts"><button class="btn" id="again">دانلود دوباره</button><button class="btn alt" data-close>بستن</button></div>`,
     d => d.querySelector('#again').addEventListener('click', () => startDownload(p.url)));
   startDownload(p.url);
@@ -409,12 +512,44 @@ function resultsHTML(r){
     ${r.local ? '<p class="note">حالت آزمایشی: این اعداد فقط مربوط به همین مرورگر است. برای نتایج واقعی، Supabase را وصل کن.</p>' : ''}
     <p>مجموع رأی‌ها: <b>${fa(r.total)}</b></p>
     <ul class="res">${r.rows.map(x=>`<li><div class="row"><span>${esc(x.name)}</span><span>${fa(x.votes)}</span></div><div class="trk"><i style="width:${(x.votes/max*100).toFixed(1)}%"></i></div></li>`).join('')}</ul>
-    <div class="acts"><button class="btn" id="refresh">به‌روزرسانی</button><button class="btn alt" data-close>خروج</button></div>`;
+    ${r.ended ? '<p class="note">نظرسنجی پایان یافته و برنده در سایت اعلام شده است.</p>' : ''}
+    <div class="acts"><button class="btn" id="refresh">به‌روزرسانی</button>
+      ${r.ended
+        ? '<button class="btn gold" id="restart">شروع مجدد نظرسنجی</button>'
+        : '<button class="btn gold" id="endpoll">پایان نظرسنجی</button><button class="btn danger" id="reset">صفر کردن رأی‌ها</button>'}
+      <button class="btn alt" data-close>خروج</button></div>`;
+}
+const ADMIN_ACTS = {
+  reset:   {fn:'reset',   title:'همه‌ی رأی‌ها صفر شود؟', text:'همه‌ی رأی‌های ثبت‌شده پاک می‌شوند و همه می‌توانند دوباره رأی بدهند. این کار برگشت‌پذیر نیست.', go:'بله، صفر شود', done:'همه‌ی رأی‌ها صفر شد.'},
+  end:     {fn:'end',     title:'نظرسنجی تمام شود؟', text:'رأی‌گیری بسته می‌شود و نام برنده برای همه‌ی بازدیدکنندگان به‌صورت بزرگ در سایت نمایش داده می‌شود.', go:'بله، پایان نظرسنجی', done:'نظرسنجی تمام شد و برنده اعلام شد.'},
+  restart: {fn:'restart', title:'نظرسنجی از نو شروع شود؟', text:'اعلام برنده برداشته می‌شود، همه‌ی رأی‌ها صفر می‌شود و رأی‌گیری دوباره باز می‌شود.', go:'بله، شروع مجدد', done:'نظرسنجی از نو شروع شد.'}
+};
+function adminAct(key, u, p){
+  const a = ADMIN_ACTS[key];
+  openDialog(`<h2>${a.title}</h2><p>${a.text}</p>
+    <div class="acts"><button class="btn ${key==='reset'?'danger':'gold'}" id="ok">${a.go}</button><button class="btn alt" id="no">انصراف</button></div>`,
+    d => {
+      d.querySelector('#no').addEventListener('click', async () => { try{ const n = await api.admin(u,p); showResults(n,u,p); }catch(e){ d.close(); } });
+      d.querySelector('#ok').addEventListener('click', async () => {
+        if (busy) return; busy = true;
+        try{
+          const n = await api[a.fn](u,p);
+          if (n && n.ok){ await refreshStatus(); if (a.fn!=='end') myVote = null; draw(); toast(a.done); showResults(n,u,p); }
+          else { toast('انجام نشد؛ نام کاربری یا رمز درست نیست یا دسترسی ندارید.'); d.close(); }
+        }catch(e){ toast('ارتباط با سرور برقرار نشد. اگر فایل SQL جدید را اجرا نکرده‌ای، اول آن را اجرا کن.'); d.close(); }
+        busy = false;
+      });
+    });
 }
 function showResults(r, u, p){
-  openDialog(resultsHTML(r), d => d.querySelector('#refresh').addEventListener('click', async () => {
-    try{ const n = await api.admin(u,p); if (n.ok) showResults(n,u,p); else d.close(); }catch(e){ toast('ارتباط با سرور برقرار نشد.'); }
-  }));
+  openDialog(resultsHTML(r), d => {
+    d.querySelector('#refresh').addEventListener('click', async () => {
+      try{ const n = await api.admin(u,p); if (n.ok) showResults(n,u,p); else d.close(); }catch(e){ toast('ارتباط با سرور برقرار نشد.'); }
+    });
+    [['reset','reset'],['endpoll','end'],['restart','restart']].forEach(([id,key]) => {
+      const b = d.querySelector('#'+id); if (b) b.addEventListener('click', () => adminAct(key,u,p));
+    });
+  });
 }
 function openAdmin(){
   if (!REMOTE){ api.admin().then(r => showResults(r)); return; }
@@ -449,6 +584,9 @@ $('search').addEventListener('input', e => { query = e.target.value; draw(); });
 $('adminDot').addEventListener('click', openAdmin);
 
 draw();
+refreshStatus();
+setInterval(refreshStatus, 60000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshStatus(); });
 api.my().then(r => { if (r && r.project){ myVote = r.project; draw(); } }).catch(() => toast('اتصال به سرور رأی‌گیری برقرار نشد.'));
 </script>
 </body>
