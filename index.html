@@ -1,22 +1,455 @@
 <!doctype html>
-<html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#080d1c"><title>بازی‌های علوم | نمایشگاه پروژه‌ها</title>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#EDF0F3">
+<title>بازی‌های علوم</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111C2E'/%3E%3Cellipse cx='32' cy='32' rx='22' ry='9' fill='none' stroke='%23E8A317' stroke-width='3'/%3E%3Cellipse cx='32' cy='32' rx='22' ry='9' fill='none' stroke='%232A62D9' stroke-width='3' transform='rotate(60 32 32)'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
-:root{--bg:#080d1c;--panel:rgba(17,26,49,.78);--line:rgba(155,190,255,.17);--text:#f3f6ff;--muted:#a9b6d2;--cyan:#5ce1e6;--violet:#a78bfa;--pink:#ff72c6}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;color:var(--text);font-family:Vazirmatn,Tahoma,sans-serif;background:radial-gradient(ellipse at 15% 5%,#17285a 0,transparent 36%),radial-gradient(ellipse at 90% 18%,#38205b 0,transparent 30%),linear-gradient(145deg,#070b17,#0a1125 58%,#10102b);overflow-x:hidden}body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(rgba(130,165,255,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(130,165,255,.12) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,#000,transparent 90%)}.orb{position:fixed;width:300px;height:300px;border-radius:50%;filter:blur(80px);opacity:.16;pointer-events:none;animation:float 12s ease-in-out infinite alternate}.o1{background:#5ce1e6;top:25%;left:-150px}.o2{background:#a78bfa;right:-140px;top:60%;animation-delay:-5s}@keyframes float{to{transform:translate(70px,-55px) scale(1.2)}}.wrap{width:min(1180px,92%);margin:auto;position:relative}.nav{display:flex;align-items:center;justify-content:space-between;padding:24px 0}.brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:-.4px}.brand-icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--cyan),var(--violet));color:#071020;font-size:23px;box-shadow:0 0 30px #5ce1e62a}.nav-tag{font-size:12px;color:#d2dafa;border:1px solid var(--line);background:#ffffff08;border-radius:99px;padding:8px 13px}.hero{text-align:center;padding:55px 0 34px}.eyebrow{display:inline-flex;gap:8px;align-items:center;padding:8px 14px;border:1px solid #5ce1e633;border-radius:99px;color:var(--cyan);background:#5ce1e60c;font-size:13px}.pulse{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan)}h1{font-size:clamp(38px,7vw,76px);line-height:1.2;margin:20px 0 12px;font-weight:900;letter-spacing:-2px;background:linear-gradient(100deg,#fff 20%,#a9eaff 48%,#c6b5ff 78%,#ffb6e3);color:transparent;background-clip:text;-webkit-background-clip:text}.sub{color:var(--muted);max-width:650px;margin:0 auto;line-height:2;font-size:15px}.hero-stats{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:24px}.stat{border:1px solid var(--line);background:#ffffff07;border-radius:14px;padding:10px 16px;color:#d9e4ff;font-size:13px}.stat b{color:white;font-size:16px;margin-left:5px}.toolbar{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:22px 0 18px;flex-wrap:wrap}.section-title{font-size:22px;font-weight:800}.section-title small{display:block;color:var(--muted);font-size:12px;font-weight:400;margin-top:3px}.search{width:min(350px,100%);position:relative}.search input{width:100%;background:#111a31d9;border:1px solid var(--line);border-radius:14px;padding:14px 44px 14px 14px;color:white;font:inherit;outline:none;transition:.25s}.search input:focus{border-color:#5ce1e6a0;box-shadow:0 0 0 4px #5ce1e610}.search span{position:absolute;right:15px;top:12px;font-size:19px;color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding-bottom:35px}.card{position:relative;isolation:isolate;overflow:hidden;display:flex;flex-direction:column;min-height:220px;padding:21px;border:1px solid var(--line);border-radius:22px;background:linear-gradient(145deg,#17213be0,#10172be0);box-shadow:0 12px 35px #00000012;transition:transform .35s,border-color .35s,box-shadow .35s;animation:appear .6s both}.card:before{content:"";position:absolute;z-index:-1;width:160px;height:160px;left:-80px;top:-85px;border-radius:50%;background:var(--glow,#5ce1e6);filter:blur(55px);opacity:.22;transition:opacity .3s}.card:hover{transform:translateY(-7px);border-color:#8ceaf066;box-shadow:0 20px 45px #0004}.card:hover:before{opacity:.5}.card.featured{grid-column:span 3;min-height:175px;display:grid;grid-template-columns:1fr auto;align-items:center;background:linear-gradient(110deg,#15374b,#191c42 60%,#2b1d47);border-color:#5ce1e64d}.card.featured .name{font-size:28px}.topline{display:flex;align-items:center;justify-content:space-between;gap:8px}.num{font-size:11px;color:#9baaca;letter-spacing:1px}.badge{font-size:11px;border-radius:99px;padding:6px 10px;background:#5ce1e612;border:1px solid #5ce1e633;color:var(--cyan);white-space:nowrap}.badge.pc{color:#ffcf87;background:#ffcf8710;border-color:#ffcf8733}.badge.vote{color:#c5b4ff;background:#a78bfa12;border-color:#a78bfa33}.card-icon{width:45px;height:45px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(140deg,#5ce1e622,#a78bfa24);border:1px solid #ffffff14;font-size:22px;margin:16px 0 12px}.featured .card-icon{width:64px;height:64px;font-size:30px}.name{font-size:20px;font-weight:800;margin:0 0 7px}.desc{font-size:12px;color:var(--muted);line-height:1.9;margin:0 0 18px}.actions{display:flex;gap:9px;margin-top:auto;flex-wrap:wrap}.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;border:1px solid #ffffff17;border-radius:12px;padding:10px 13px;text-decoration:none;color:#f7f8ff;background:#ffffff08;font:inherit;font-size:12px;cursor:pointer;transition:.25s}.btn.primary{background:linear-gradient(100deg,#5ce1e6,#a78bfa);border:0;color:#071020;font-weight:800}.btn:hover{transform:translateY(-2px);filter:brightness(1.12)}.featured .actions{justify-content:flex-end}.vote-panel{border:1px solid #a78bfa3b;background:linear-gradient(120deg,#171832e8,#111a31e8);border-radius:24px;padding:25px;margin:4px 0 42px;position:relative;overflow:hidden}.vote-panel:after{content:"✦";position:absolute;left:30px;top:-30px;font-size:140px;color:#a78bfa0b;pointer-events:none}.vote-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}.vote-head h2{margin:0 0 8px;font-size:24px}.vote-head p{margin:0;color:var(--muted);font-size:13px;line-height:1.9}.vote-status{color:#d7caff;background:#a78bfa13;border:1px solid #a78bfa38;padding:8px 12px;border-radius:12px;font-size:12px}.vote-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:22px}.vote-option{padding:13px;border-radius:14px;border:1px solid var(--line);background:#ffffff05;color:white;cursor:pointer;font:inherit;text-align:right;transition:.2s}.vote-option:hover{border-color:#a78bfa;transform:translateY(-2px)}.vote-option.selected{border-color:#a78bfa;background:#a78bfa1d;box-shadow:inset 0 0 0 1px #a78bfa55}.vote-option:disabled{opacity:.55;cursor:not-allowed}.vote-option small{display:block;color:var(--muted);font-size:11px;margin-top:5px}.vote-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px}.notice{font-size:11px;line-height:1.8;color:#9baaca;max-width:650px}.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:50px 10px}.footer{border-top:1px solid var(--line);padding:22px 0 30px;color:#8795b4;font-size:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#eefaff;color:#091322;padding:12px 18px;border-radius:12px;box-shadow:0 10px 40px #0005;z-index:10;transition:.25s;font-size:13px}.toast.show{opacity:1;transform:translate(-50%,0)}@keyframes appear{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}@media(max-width:850px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.card.featured{grid-column:span 2}.vote-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:540px){.hero{padding-top:35px}.grid{grid-template-columns:1fr}.card.featured{grid-column:span 1;display:flex;align-items:stretch}.card.featured .name{font-size:23px}.featured .actions{justify-content:flex-start}.vote-grid{grid-template-columns:1fr 1fr}.vote-panel{padding:18px}.nav-tag{display:none}.footer{flex-direction:column}}
-</style></head><body><div class="orb o1"></div><div class="orb o2"></div><div class="wrap"><nav class="nav"><div class="brand"><div class="brand-icon">⚗</div><span>SCIENCE <span style="color:var(--cyan)">ARCADE</span></span></div><div class="nav-tag">نمایشگاه پروژه‌های دانش‌آموزی</div></nav>
-<header class="hero"><div class="eyebrow"><i class="pulse"></i> آزمایشگاه خلاقیت شما</div><h1>بازی‌های علوم</h1><p class="sub">اینجا علم فقط خواندنی نیست؛ تجربه‌اش کن! بازی‌ها و پروژه‌های علمی بچه‌ها را ببین، واردشان شو و به پروژه‌ی موردعلاقه‌ات رأی بده.</p><div class="hero-stats"><div class="stat"><b id="projectCount">0</b> پروژه</div><div class="stat"><b>∞</b> کنجکاوی</div><div class="stat"><b>01</b> انتخاب برای رأی</div></div></header>
-<div class="toolbar"><div class="section-title">گالری پروژه‌ها <small>برای ورود به هر پروژه روی کارت آن بزن</small></div><label class="search"><span>⌕</span><input id="search" type="search" placeholder="جست‌وجوی نام دانش‌آموز..." aria-label="جست‌وجوی پروژه"></label></div><section class="grid" id="grid"></section>
-<section class="vote-panel" id="vote"><div class="vote-head"><div><h2>✦ بخش دوم؛ رأی‌گیری</h2><p>فقط یک پروژه را انتخاب کن. انتخابت را ثبت کن تا در همین مرورگر دوباره امکان رأی‌دادن نداشته باشی.</p></div><div class="vote-status" id="voteStatus">هنوز رأی نداده‌ای</div></div><div class="vote-grid" id="voteGrid"></div><div class="vote-footer"><div class="notice">نکته فنی: GitHub Pages فقط میزبانی استاتیک است؛ بنابراین این نسخه رأی را در مرورگر ذخیره می‌کند، نه بر اساس IP و نه در یک پایگاه داده مشترک. برای جلوگیری واقعی از چند رأی با یک IP باید رأی‌گیری به سرویس بک‌اند متصل شود.</div><button class="btn primary" id="submitVote">ثبت رأی من ↗</button></div></section>
-<footer class="footer"><span>ساخته‌شده برای نمایشگاه «بازی‌های علوم» ✦</span><span>کنجکاو بمان؛ آزمایش کن.</span></footer></div><div class="toast" id="toast"></div>
+:root{
+  --paper:#EDF0F3; --ink:#111C2E; --ink2:#4A5870; --line:#CBD3DE; --card:#fff;
+  --f-body:Vazirmatn,Tahoma,"Segoe UI",sans-serif; --f-display:Lalezar,Vazirmatn,Tahoma,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:var(--f-body);line-height:1.8;
+  background-color:var(--paper);
+  background-image:linear-gradient(rgba(17,28,46,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(17,28,46,.045) 1px,transparent 1px);
+  background-size:28px 28px}
+.wrap{width:min(1160px,92%);margin-inline:auto}
+:focus-visible{outline:3px solid #2A62D9;outline-offset:2px}
+
+/* hero */
+.hero{padding:clamp(36px,7vw,84px) 0 22px}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(52px,11vw,124px);line-height:1.05;margin:0 0 14px;letter-spacing:-1px}
+.lead{max-width:42em;margin:0 0 6px;font-size:clamp(15px,2.2vw,18px);color:var(--ink2)}
+.rule{max-width:40em;margin:14px 0 0;padding:12px 16px;border-right:4px solid #E8A317;background:rgba(255,255,255,.7);font-size:14px;color:var(--ink)}
+.tools{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:26px 0 18px}
+.search{flex:1 1 280px;max-width:380px}
+.search input{width:100%;font:inherit;font-size:15px;padding:12px 16px;border:2px solid var(--ink);border-radius:10px;background:#fff;color:var(--ink)}
+.search input::placeholder{color:#7A879B}
+.count{font-size:14px;color:var(--ink2)}
+
+/* tiles */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;padding-bottom:110px}
+.tile{--h:#1F4FBF;position:relative;display:flex;flex-direction:column;background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:14px 14px 14px;box-shadow:5px 5px 0 var(--ink);min-width:0}
+.tile.in{animation:rise .5s both cubic-bezier(.2,.7,.2,1);animation-delay:var(--d,0ms)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:var(--ink2)}
+.kind{display:inline-block;padding:1px 9px;border-radius:99px;border:1.5px solid var(--h);color:var(--h);font-weight:500}
+.symbol{position:relative;display:grid;place-items:center;height:104px;margin:6px 0 2px;font-family:var(--f-display);font-size:62px;line-height:1;color:var(--h);direction:rtl}
+.symbol span{position:relative;z-index:1}
+.orbit{position:absolute;inset:6px 18% 6px;border:2px dashed var(--h);border-radius:50%;opacity:0;transform:rotate(-18deg) scaleY(.5)}
+.name{margin:0 0 10px;font-size:19px;font-weight:700;text-align:center;line-height:1.5;overflow-wrap:anywhere}
+.plays{display:flex;gap:8px;flex-wrap:wrap}
+.btn{flex:1 1 0;min-width:0;display:inline-flex;justify-content:center;align-items:center;text-align:center;font:inherit;font-size:13.5px;font-weight:700;padding:9px 10px;border-radius:9px;border:2px solid var(--ink);background:var(--ink);color:#fff;cursor:pointer;text-decoration:none;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.vote{margin-top:8px;width:100%;font:inherit;font-size:13.5px;font-weight:700;padding:9px 10px;border-radius:9px;border:2px dashed var(--h);background:transparent;color:var(--h);cursor:pointer;transition:background .15s,color .15s}
+.vote:hover:not(:disabled){background:var(--h);color:#fff;border-style:solid}
+.vote:disabled{border-color:var(--line);color:#8A96A8;cursor:not-allowed}
+.tile.locked{background:#F6F8FA;border-color:#9AA6B8;box-shadow:5px 5px 0 #CBD3DE}
+.tile.locked .symbol,.tile.locked .name{opacity:.55}
+.tile.mine{background:var(--ink);color:#fff;box-shadow:5px 5px 0 var(--h)}
+.tile.mine .meta{color:#B7C2D6}
+.tile.mine .kind{color:#fff;border-color:#fff}
+.tile.mine .symbol{color:#FFD36B}
+.tile.mine .orbit{opacity:1;border-color:#FFD36B;transform:rotate(-18deg) scaleY(.5);animation:snap .7s cubic-bezier(.2,.8,.2,1) both}
+.tile.mine .orbit:after{content:"";position:absolute;width:12px;height:12px;border-radius:50%;background:#FFD36B;top:-7px;left:50%;margin-left:-6px;box-shadow:0 0 0 4px rgba(255,211,107,.3)}
+@keyframes snap{from{opacity:0;transform:rotate(-198deg) scaleY(.5) scale(.6)}to{opacity:1;transform:rotate(-18deg) scaleY(.5) scale(1)}}
+.tile.mine .btn{background:#fff;color:var(--ink);border-color:#fff}
+.tile.mine .vote{border:2px solid #FFD36B;background:#FFD36B;color:var(--ink)}
+.empty{grid-column:1/-1;padding:40px 0;color:var(--ink2)}
+
+/* bottom bar */
+.bar{position:fixed;inset-inline:0;bottom:14px;display:flex;justify-content:center;pointer-events:none;z-index:5;padding:0 12px}
+.bar>div{pointer-events:auto;display:none;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;background:var(--ink);color:#fff;border-radius:12px;padding:10px 12px 10px 18px;box-shadow:0 10px 30px rgba(17,28,46,.35);font-size:14px}
+.bar.show>div{display:flex}
+.bar b{color:#FFD36B}
+.bar button{font:inherit;font-size:13px;font-weight:700;padding:7px 14px;border-radius:8px;border:2px solid #fff;background:transparent;color:#fff;cursor:pointer}
+.bar button:hover{background:#fff;color:var(--ink)}
+
+/* footer */
+.foot{border-top:2px solid var(--ink);padding:18px 0 28px;color:var(--ink2);font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.dot{width:9px;height:9px;padding:0;border-radius:50%;border:0;background:var(--ink);opacity:.14;cursor:pointer}
+.dot:hover,.dot:focus-visible{opacity:.6}
+
+/* dialog / toast */
+dialog{width:min(460px,92vw);border:2px solid var(--ink);border-radius:14px;padding:22px;background:#fff;color:var(--ink);box-shadow:8px 8px 0 var(--ink);font-family:var(--f-body)}
+dialog::backdrop{background:rgba(17,28,46,.55)}
+dialog h2{margin:0 0 8px;font-family:var(--f-display);font-weight:400;font-size:28px;line-height:1.3}
+dialog p{margin:0 0 10px;color:var(--ink2);font-size:14.5px}
+.acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.acts .btn{flex:1 1 auto}
+.btn.alt{background:#fff;color:var(--ink)}
+.field{display:block;margin:10px 0 0;font-size:13px;color:var(--ink2)}
+.field input{display:block;width:100%;margin-top:4px;font:inherit;font-size:15px;padding:10px 12px;border:2px solid var(--ink);border-radius:9px;direction:ltr;text-align:left}
+.err{color:#CF3F2A;font-size:13.5px;min-height:1.5em;margin:8px 0 0}
+.res{margin:12px 0 0;padding:0;list-style:none;max-height:52vh;overflow:auto}
+.res li{margin:0 0 10px}
+.res .row{display:flex;justify-content:space-between;gap:10px;font-size:14px;font-weight:500}
+.res .trk{height:10px;margin-top:3px;background:#E3E8EE;border-radius:6px;overflow:hidden}
+.res .trk i{display:block;height:100%;background:var(--ink);border-radius:6px}
+.note{font-size:12.5px;background:#FFF4D6;border:1.5px solid #E8A317;border-radius:8px;padding:6px 10px;color:#5C4200;margin:8px 0 0}
+.toast{position:fixed;left:50%;bottom:84px;transform:translate(-50%,16px);opacity:0;pointer-events:none;background:#fff;color:var(--ink);border:2px solid var(--ink);padding:10px 16px;border-radius:10px;font-size:14px;z-index:30;transition:.25s;max-width:92vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:520px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .tile{padding:10px;box-shadow:4px 4px 0 var(--ink)}
+  .symbol{height:78px;font-size:46px}
+  .name{font-size:16px}
+  .btn,.vote{font-size:12.5px;padding:8px 6px}
+  .meta{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .tile.in,.tile.mine .orbit{animation:none}
+  .btn,.toast{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <h1>بازی‌های علوم</h1>
+    <p class="lead">بازی‌های علمی ساخته‌شده توسط دانش‌آموزان را اجرا کن و به بهترین پروژه رأی بده.</p>
+    <p class="rule">هر نفر فقط یک رأی دارد. رأی بعد از ثبت قفل می‌شود؛ اگر نظرت عوض شد، رأی را پس بگیر و دوباره انتخاب کن.</p>
+    <div class="tools">
+      <label class="search"><input id="search" type="search" placeholder="جست‌وجوی نام دانش‌آموز" aria-label="جست‌وجوی نام دانش‌آموز" autocomplete="off"></label>
+      <span class="count" id="count"></span>
+    </div>
+  </header>
+  <main><section class="grid" id="grid" aria-label="فهرست پروژه‌ها"></section></main>
+  <footer class="foot"><span>نمایشگاه پروژه‌های علوم</span><button class="dot" id="adminDot" aria-label="ورود مدیر" title=""></button></footer>
+</div>
+
+<div class="bar" id="bar"><div><span>رأی شما برای <b id="barName"></b> ثبت شده است.</span><button id="barRetract">پس گرفتن رأی</button></div></div>
+<dialog id="dlg"></dialog>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="config.js"></script>
 <script>
-const projects=[{"name": "متقیان", "file": "https://mtastudio.github.io/Atomsaz_/", "type": "web", "featured": true}, {"name": "پناهی", "file": "games/پناهی.htm", "type": "web"}, {"name": "خلیل زاده", "file": "games/خلیل زاده.html", "type": "web"}, {"name": "طراح زادگان", "file": "games/طراح زادگان.html", "type": "web"}, {"name": "ذوالفقاری", "file": "games/ذوالفقاری.html", "type": "web"}, {"name": "بنی هاشمی", "file": "games/بنی هاشمی.html", "type": "web"}, {"name": "شکوری", "file": "games/شکوری.html", "type": "web"}, {"name": "هاشمی", "file": "games/هاشمی.html", "type": "web"}, {"name": "عیوض نژاد", "file": "games/عیوض نژاد.html", "type": "web"}, {"name": "سعید محمدی", "file": "games/سعید محمدی.html", "type": "web"}, {"name": "محفوظی", "file": "games/محفوظی.html", "type": "web"}, {"name": "حاج غفاری", "file": "games/حاج غفاری .html", "type": "web"}, {"name": "رحمانی", "file": "games/رحمانی.html", "type": "web"}, {"name": "حسین زاده", "file": "https://survey.porsline.ir/s/piBLIW0m", "type": "web"}, {"name": "لطفعلی پور", "file": "downloads/لطفعلی پور.rar", "type": "pc"}, {"name": "مختاریانی", "file": "downloads/مختاریانی.rar", "type": "pc"}];
-const grid=document.getElementById('grid'), voteGrid=document.getElementById('voteGrid'), search=document.getElementById('search');
-const colors=['#5ce1e6','#a78bfa','#ff72c6','#8be9a6','#ffcf87'];let chosen='';
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function toast(t){let e=document.getElementById('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),2800)}
-function draw(q=''){let list=projects.filter(p=>p.name.toLowerCase().includes(q.trim().toLowerCase()));document.getElementById('projectCount').textContent=projects.length;grid.innerHTML=list.map((p,i)=>{let featured=p.featured, pc=p.type==='pc', ext=p.type==='web'&&p.file.startsWith('http');let label=pc?'فایل کامپیوتری · EXE':ext?'ورود به وب‌سایت':'بازی تحت وب';let icon=pc?'▣':ext?'↗':'⚗';let desc=pc?'نسخه‌ی کامپیوتری؛ فایل EXE پس از دریافت باید در ویندوز اجرا شود.':ext?'برای مشاهده‌ی پروژه به وب‌سایت معرفی‌شده منتقل می‌شوی.':'برای اجرای بازی، وارد صفحه‌ی پروژه شو.';let href=esc(p.file);let action=pc?`<a class="btn primary" href="${href}" download>⬇ دریافت فایل</a>`:`<a class="btn primary" href="${href}" ${ext?'target="_blank" rel="noopener"':''}>${ext?'مشاهده وب‌سایت ↗':'اجرای بازی ↗'}</a>`;return `<article class="card ${featured?'featured':''}" style="--glow:${colors[i%colors.length]};animation-delay:${Math.min(i,12)*45}ms"><div><div class="topline"><span class="num">PROJECT / ${String(i+1).padStart(2,'0')}</span><span class="badge ${pc?'pc':''}">${pc?'نسخه کامپیوتر':ext?'لینک خارجی':'بازی وب'}</span></div><div class="card-icon">${icon}</div><h3 class="name">${esc(p.name)}</h3><p class="desc">${desc}</p><div class="actions">${action}<button class="btn" onclick="jumpVote('${esc(p.name).replace(/'/g,"\\'")}')">✦ رأی به این پروژه</button></div></div>${featured?'<div style="font-size:64px;opacity:.8;text-align:center">✧</div>':''}</article>`}).join('')||'<div class="empty">پروژه‌ای با این نام پیدا نشد.</div>';drawVote()}
-function drawVote(){let eligible=projects.filter(p=>p.type!=='pc');voteGrid.innerHTML=eligible.map((p,i)=>`<button class="vote-option ${chosen===p.name?'selected':''}" data-name="${esc(p.name)}" onclick="selectVote(this)">${esc(p.name)}<small>${p.type==='web'&&p.file.startsWith('http')?'پروژه‌ی آنلاین':'بازی تحت وب'}</small></button>`).join('');let already=localStorage.getItem('scienceArcadeVote');if(already){document.getElementById('voteStatus').textContent='رأی این مرورگر ثبت شده';document.getElementById('submitVote').disabled=true;document.getElementById('submitVote').textContent='رأی قبلاً ثبت شده';voteGrid.querySelectorAll('button').forEach(b=>b.disabled=true)} }
-function selectVote(el){if(localStorage.getItem('scienceArcadeVote'))return;chosen=el.dataset.name;drawVote()}
-function jumpVote(name){let p=projects.find(x=>x.name===name);if(p&&p.type!=='pc'&&!localStorage.getItem('scienceArcadeVote'))chosen=name;document.getElementById('vote').scrollIntoView({behavior:'smooth'});drawVote()}
-document.getElementById('submitVote').addEventListener('click',()=>{if(localStorage.getItem('scienceArcadeVote')){toast('این مرورگر قبلاً رأی داده است.');return}if(!chosen){toast('اول یک پروژه را انتخاب کن.');return}localStorage.setItem('scienceArcadeVote',chosen);document.getElementById('voteStatus').textContent='رأی ثبت شد: '+chosen;toast('رأی شما در همین مرورگر ذخیره شد.');drawVote()});search.addEventListener('input',()=>draw(search.value));draw();
-</script></body></html>
+/* ===== فهرست پروژه‌ها =====
+   kind: web (بازی داخل همین سایت) | link (لینک بیرونی) | pc (فایل دانلودی برای کامپیوتر)
+   برای اضافه‌کردن یک نفر، یک خط به همین فهرست اضافه کن (id باید انگلیسی و یکتا باشد)
+   و همان id را در جدول projects در Supabase هم اضافه کن. */
+const PROJECTS = [
+ {
+  "id": "mottaqian",
+  "name": "متقیان",
+  "kind": "link",
+  "url": "https://mtastudio.github.io/Atomsaz_/"
+ },
+ {
+  "id": "panahi",
+  "name": "پناهی",
+  "kind": "web",
+  "url": "games/panahi.html"
+ },
+ {
+  "id": "khalilzadeh",
+  "name": "خلیل زاده",
+  "kind": "web",
+  "url": "games/khalilzadeh.html"
+ },
+ {
+  "id": "tarrahzadegan",
+  "name": "طراح زادگان",
+  "kind": "web",
+  "url": "games/tarrahzadegan.html"
+ },
+ {
+  "id": "zolfaghari",
+  "name": "ذوالفقاری",
+  "kind": "web",
+  "url": "games/zolfaghari.html"
+ },
+ {
+  "id": "banihashemi",
+  "name": "بنی هاشمی",
+  "kind": "web",
+  "url": "games/banihashemi.html"
+ },
+ {
+  "id": "shakouri",
+  "name": "شکوری",
+  "kind": "web",
+  "url": "games/shakouri.html"
+ },
+ {
+  "id": "hashemi",
+  "name": "هاشمی",
+  "kind": "web",
+  "url": "games/hashemi.html"
+ },
+ {
+  "id": "eyvaznejad",
+  "name": "عیوض نژاد",
+  "kind": "web",
+  "url": "games/eyvaznejad.html"
+ },
+ {
+  "id": "saeedmohammadi",
+  "name": "سعید محمدی",
+  "kind": "web",
+  "url": "games/saeedmohammadi.html"
+ },
+ {
+  "id": "mahfouzi",
+  "name": "محفوظی",
+  "kind": "web",
+  "url": "games/mahfouzi.html"
+ },
+ {
+  "id": "hajghaffari",
+  "name": "حاج غفاری",
+  "kind": "web",
+  "url": "games/hajghaffari.html"
+ },
+ {
+  "id": "rahmani",
+  "name": "رحمانی",
+  "kind": "web",
+  "url": "games/rahmani.html"
+ },
+ {
+  "id": "hosseinzadeh",
+  "name": "حسین زاده",
+  "kind": "link",
+  "url": "https://survey.porsline.ir/s/piBLIW0m"
+ },
+ {
+  "id": "kalantari",
+  "name": "کلانتری",
+  "kind": "web",
+  "url": "games/kalantari.html"
+ },
+ {
+  "id": "atomic-mario",
+  "name": "مظاهری",
+  "kind": "web",
+  "urls": [
+   [
+    "نسخه کامپیوتر",
+    "games/atomic-mario.html"
+   ],
+   [
+    "نسخه موبایل",
+    "games/atomic-mario-mobile.html"
+   ]
+  ]
+ },
+ {
+  "id": "lotfalipour",
+  "name": "لطفعلی پور",
+  "kind": "pc",
+  "url": "downloads/lotfalipour.rar"
+ },
+ {
+  "id": "mokhtariani",
+  "name": "مختاریانی",
+  "kind": "pc",
+  "url": "downloads/mokhtariani.rar"
+ },
+ {
+  "id": "atoms-quiz",
+  "name": "کندری",
+  "kind": "pc",
+  "url": "downloads/atoms_quiz.exe"
+ }
+];
+
+const CFG = window.APP_CONFIG || {};
+const REMOTE = !!(CFG.SUPABASE_URL && CFG.SUPABASE_ANON_KEY);
+
+/* ===== لایه ارتباط با سرور (Supabase) یا حالت آزمایشی ===== */
+async function rpc(fn, args){
+  const h = {'Content-Type':'application/json', apikey: CFG.SUPABASE_ANON_KEY};
+  if (CFG.SUPABASE_ANON_KEY.startsWith('eyJ')) h.Authorization = 'Bearer ' + CFG.SUPABASE_ANON_KEY;
+  const r = await fetch(CFG.SUPABASE_URL.replace(/\/$/,'') + '/rest/v1/rpc/' + fn, {method:'POST', headers:h, body: JSON.stringify(args||{})});
+  if (!r.ok) throw new Error('http ' + r.status);
+  return r.json();
+}
+const LS = {
+  get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } },
+  set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} },
+  del(k){ try{ localStorage.removeItem(k); }catch(e){} }
+};
+function localTally(){ try{ return JSON.parse(LS.get('sa_tally')||'{}'); }catch(e){ return {}; } }
+const api = REMOTE ? {
+  my:      () => rpc('my_vote'),
+  cast:    id => rpc('cast_vote', {p_project:id}),
+  retract: () => rpc('retract_vote'),
+  admin:   (u,p) => rpc('admin_results', {p_user:u, p_pass:p})
+} : {
+  async my(){ return {project: LS.get('sa_vote')}; },
+  async cast(id){
+    const cur = LS.get('sa_vote');
+    if (cur) return {ok:false, error:'already_voted', project:cur};
+    const t = localTally(); t[id] = (t[id]||0) + 1; LS.set('sa_tally', JSON.stringify(t)); LS.set('sa_vote', id);
+    return {ok:true, project:id};
+  },
+  async retract(){
+    const cur = LS.get('sa_vote');
+    if (cur){ const t = localTally(); t[cur] = Math.max(0,(t[cur]||0)-1); LS.set('sa_tally', JSON.stringify(t)); LS.del('sa_vote'); }
+    return {ok:true};
+  },
+  async admin(){
+    const t = localTally();
+    const rows = PROJECTS.map(p => ({id:p.id, name:p.name, votes:t[p.id]||0})).sort((a,b)=>b.votes-a.votes);
+    return {ok:true, local:true, total: rows.reduce((s,r)=>s+r.votes,0), rows};
+  }
+};
+
+/* ===== ابزارها ===== */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fa = n => Number(n).toLocaleString('fa-IR');
+const HUES = ['#1F4FBF','#0B7A6E','#CF3F2A','#5B3AB0','#B87400','#2E7D32'];
+let myVote = null, busy = false, firstDraw = true, query = '';
+
+let tt;
+function toast(t){ const e=$('toast'); e.textContent=t; e.classList.add('show'); clearTimeout(tt); tt=setTimeout(()=>e.classList.remove('show'),3200); }
+function symbolOf(name){ return Array.from(name.replace(/[\s\u200c]/g,'')).slice(0,2).join(''); }
+function nameOf(id){ const p = PROJECTS.find(x=>x.id===id); return p ? p.name : ''; }
+
+/* ===== رسم کارت‌ها ===== */
+function tileHTML(p, i){
+  const mine = myVote === p.id, locked = !!myVote && !mine;
+  const kindLabel = p.kind==='pc' ? 'فقط کامپیوتر' : p.kind==='link' ? 'وب‌سایت' : 'بازی وب';
+  let plays;
+  if (p.kind==='pc')        plays = `<button class="btn" data-dl="${esc(p.id)}">دانلود برای کامپیوتر</button>`;
+  else if (p.kind==='link') plays = `<a class="btn" href="${esc(p.url)}" target="_blank" rel="noopener">مشاهده وب‌سایت</a>`;
+  else if (p.urls)          plays = p.urls.map(u=>`<a class="btn" href="${esc(u[1])}">${esc(u[0])}</a>`).join('');
+  else                      plays = `<a class="btn" href="${esc(p.url)}">اجرای بازی</a>`;
+  let vote;
+  if (mine)        vote = `<button class="vote" data-retract>رأی من ثبت شد · پس گرفتن</button>`;
+  else if (locked) vote = `<button class="vote" disabled title="اول رأی قبلی را پس بگیر">رأی قفل است</button>`;
+  else             vote = `<button class="vote" data-vote="${esc(p.id)}">رأی به این پروژه</button>`;
+  const d = firstDraw ? ` in" style="--h:${HUES[i%HUES.length]};--d:${Math.min(i,14)*40}ms` : `" style="--h:${HUES[i%HUES.length]}`;
+  return `<article class="tile${mine?' mine':''}${locked?' locked':''}${d}">
+    <div class="meta"><span class="kind">${kindLabel}</span></div>
+    <div class="symbol" aria-hidden="true"><i class="orbit"></i><span>${esc(symbolOf(p.name))}</span></div>
+    <h2 class="name">${esc(p.name)}</h2>
+    <div class="plays">${plays}</div>${vote}</article>`;
+}
+function draw(){
+  const q = query.trim().toLowerCase();
+  const list = PROJECTS.map((p,i)=>[p,i]).filter(([p])=>p.name.toLowerCase().includes(q));
+  $('count').textContent = fa(PROJECTS.length) + ' پروژه';
+  $('grid').innerHTML = list.map(([p,i])=>tileHTML(p,i)).join('') || '<div class="empty">پروژه‌ای با این نام پیدا نشد.</div>';
+  firstDraw = false;
+  $('bar').classList.toggle('show', !!myVote);
+  if (myVote) $('barName').textContent = nameOf(myVote);
+}
+
+/* ===== رأی دادن و پس گرفتن ===== */
+const ERR = {no_ip:'آی‌پی شما تشخیص داده نشد؛ رأی ثبت نشد.', bad_project:'این پروژه در فهرست رأی‌گیری نیست.'};
+async function doVote(id){
+  if (busy) return; busy = true;
+  try{
+    const r = await api.cast(id);
+    if (r.ok){ myVote = r.project; draw(); toast('رأی شما برای «'+nameOf(id)+'» ثبت شد.'); }
+    else if (r.error==='already_voted'){ myVote = r.project; draw(); toast('با این اتصال قبلاً رأی داده شده است. اول رأی قبلی را پس بگیر.'); }
+    else toast(ERR[r.error] || 'رأی ثبت نشد. دوباره تلاش کن.');
+  }catch(e){ toast('ارتباط با سرور برقرار نشد. دوباره تلاش کن.'); }
+  busy = false;
+}
+function askRetract(){
+  openDialog(`<h2>رأی را پس می‌گیری؟</h2><p>رأی شما برای «${esc(nameOf(myVote))}» برداشته می‌شود و می‌توانی به پروژه‌ی دیگری رأی بدهی.</p>
+    <div class="acts"><button class="btn" id="yes">پس گرفتن رأی</button><button class="btn alt" data-close>نه، بماند</button></div>`,
+    d => d.querySelector('#yes').addEventListener('click', async () => {
+      if (busy) return; busy = true;
+      try{ const r = await api.retract(); if (r.ok){ myVote = null; draw(); toast('رأی شما پس گرفته شد.'); } else toast(ERR[r.error]||'انجام نشد.'); }
+      catch(e){ toast('ارتباط با سرور برقرار نشد.'); }
+      busy = false; d.close();
+    }));
+}
+
+/* ===== دانلود فایل‌های کامپیوتری ===== */
+function startDownload(url){
+  const a = document.createElement('a'); a.href = url; a.download = ''; a.rel = 'noopener';
+  document.body.appendChild(a); a.click(); a.remove();
+}
+async function pcDownload(p){
+  const isExe = /\.exe$/i.test(p.url);
+  const how = isExe
+    ? 'بعد از دریافت، فایل را روی کامپیوتر دوبار کلیک کن تا اجرا شود. اگر ویندوز هشدار داد، «More info» و بعد «Run anyway» را بزن.'
+    : 'فایل فشرده است. بعد از دریافت، آن را روی کامپیوتر با WinRAR یا 7-Zip باز کن و فایل برنامه را اجرا کن.';
+  let missing = false;
+  try{ const r = await fetch(p.url, {method:'HEAD'}); if (r.status===404) missing = true; }catch(e){}
+  if (missing){
+    openDialog(`<h2>فایل هنوز بارگذاری نشده</h2><p>فایل «${esc(p.name)}» هنوز روی سایت قرار نگرفته است. بعداً دوباره امتحان کن.</p><div class="acts"><button class="btn" data-close>باشه</button></div>`);
+    return;
+  }
+  openDialog(`<h2>این فایل فقط با کامپیوتر باز می‌شود</h2>
+    <p>«${esc(p.name)}» نسخه‌ی ویندوز است و روی گوشی اجرا نمی‌شود. دانلود همین حالا شروع شد.</p><p>${how}</p>
+    <div class="acts"><button class="btn" id="again">دانلود دوباره</button><button class="btn alt" data-close>بستن</button></div>`,
+    d => d.querySelector('#again').addEventListener('click', () => startDownload(p.url)));
+  startDownload(p.url);
+}
+
+/* ===== پنجره‌ها ===== */
+const dlg = $('dlg');
+function openDialog(html, setup){
+  dlg.innerHTML = html;
+  dlg.querySelectorAll('[data-close]').forEach(b => b.addEventListener('click', () => dlg.close()));
+  if (setup) setup(dlg);
+  if (!dlg.open) dlg.showModal();
+}
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+
+/* ===== پنل مدیر ===== */
+function resultsHTML(r){
+  const max = Math.max(1, ...r.rows.map(x=>x.votes));
+  return `<h2>نتایج رأی‌گیری</h2>
+    ${r.local ? '<p class="note">حالت آزمایشی: این اعداد فقط مربوط به همین مرورگر است. برای نتایج واقعی، Supabase را وصل کن.</p>' : ''}
+    <p>مجموع رأی‌ها: <b>${fa(r.total)}</b></p>
+    <ul class="res">${r.rows.map(x=>`<li><div class="row"><span>${esc(x.name)}</span><span>${fa(x.votes)}</span></div><div class="trk"><i style="width:${(x.votes/max*100).toFixed(1)}%"></i></div></li>`).join('')}</ul>
+    <div class="acts"><button class="btn" id="refresh">به‌روزرسانی</button><button class="btn alt" data-close>خروج</button></div>`;
+}
+function showResults(r, u, p){
+  openDialog(resultsHTML(r), d => d.querySelector('#refresh').addEventListener('click', async () => {
+    try{ const n = await api.admin(u,p); if (n.ok) showResults(n,u,p); else d.close(); }catch(e){ toast('ارتباط با سرور برقرار نشد.'); }
+  }));
+}
+function openAdmin(){
+  if (!REMOTE){ api.admin().then(r => showResults(r)); return; }
+  openDialog(`<h2>ورود مدیر</h2>
+    <label class="field">نام کاربری<input id="au" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
+    <label class="field">رمز عبور<input id="ap" type="password" autocomplete="off"></label>
+    <p class="err" id="ae" role="alert"></p>
+    <div class="acts"><button class="btn" id="go">ورود</button><button class="btn alt" data-close>بستن</button></div>`,
+    d => {
+      const go = async () => {
+        const u = d.querySelector('#au').value.trim(), p = d.querySelector('#ap').value;
+        const err = d.querySelector('#ae'); err.textContent = '';
+        try{
+          const r = await api.admin(u,p);
+          if (r.ok) showResults(r,u,p); else err.textContent = 'نام کاربری یا رمز عبور درست نیست.';
+        }catch(e){ err.textContent = 'ارتباط با سرور برقرار نشد.'; }
+      };
+      d.querySelector('#go').addEventListener('click', go);
+      d.querySelector('#ap').addEventListener('keydown', e => { if (e.key==='Enter') go(); });
+    });
+}
+
+/* ===== رویدادها ===== */
+$('grid').addEventListener('click', e => {
+  const t = e.target.closest('button'); if (!t) return;
+  if (t.dataset.vote) doVote(t.dataset.vote);
+  else if (t.hasAttribute('data-retract')) askRetract();
+  else if (t.dataset.dl) pcDownload(PROJECTS.find(p => p.id === t.dataset.dl));
+});
+$('barRetract').addEventListener('click', askRetract);
+$('search').addEventListener('input', e => { query = e.target.value; draw(); });
+$('adminDot').addEventListener('click', openAdmin);
+
+draw();
+api.my().then(r => { if (r && r.project){ myVote = r.project; draw(); } }).catch(() => toast('اتصال به سرور رأی‌گیری برقرار نشد.'));
+</script>
+</body>
+</html>
