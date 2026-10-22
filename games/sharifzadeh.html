@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>نبرد دانشمندان | علوم هشتم</title>
+<style>
+:root{--bg:#10152f;--panel:#1b2450;--panel2:#222e61;--gold:#ffd166;--mint:#5cf0c2;--pink:#ff729f;--text:#f7f8ff;--muted:#c5cbea}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% 0%,#35447e 0,#171d40 38%,#0c1025 100%);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh;padding:18px;display:flex;justify-content:center;align-items:center}
+.app{width:min(850px,100%);background:#111833d9;border:1px solid #ffffff22;border-radius:26px;overflow:hidden;box-shadow:0 24px 70px #0006}
+.top{padding:24px 26px 18px;background:linear-gradient(110deg,#253d78,#382765);border-bottom:1px solid #ffffff20}
+.brand{display:flex;align-items:center;gap:15px}.logo{font-size:47px;filter:drop-shadow(0 5px 8px #0004)}h1{font-size:clamp(23px,4vw,34px);margin:0 0 7px}.sub{color:#dce4ff;line-height:1.8;margin:0;font-size:14px}
+main{padding:24px}.screen{display:none}.screen.active{display:block}.eyebrow{font-size:12px;color:var(--mint);font-weight:bold;letter-spacing:.3px;margin-bottom:8px}.intro{font-size:17px;line-height:1.9;color:#e4e9ff;margin:8px 0 18px}
+.mode-grid,.level-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.tile{border:1px solid #ffffff25;background:linear-gradient(145deg,#263463,#1a2347);border-radius:17px;padding:15px;text-align:right;color:var(--text);cursor:pointer;transition:.15s;min-height:120px}
+.tile:hover,.tile.selected{border-color:var(--mint);transform:translateY(-2px);background:linear-gradient(145deg,#2d4778,#26305b)}
+.tile .emoji{font-size:27px;display:block;margin-bottom:8px}.tile b{display:block;margin-bottom:6px}.tile small{color:var(--muted);line-height:1.7;display:block}
+.btn{font-family:inherit;border:0;border-radius:13px;padding:13px 22px;font-size:15px;font-weight:bold;cursor:pointer;transition:.15s}
+.btn-main{background:linear-gradient(90deg,var(--mint),#a1ffe2);color:#11233b}.btn-main:hover{filter:brightness(1.05);transform:translateY(-1px)}.btn-alt{background:#ffffff14;color:white;border:1px solid #ffffff2a}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.note{background:#ffd16614;border:1px solid #ffd16655;color:#ffedbb;border-radius:14px;padding:12px 14px;line-height:1.8;font-size:13px;margin:14px 0}
+.stats{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;margin-bottom:14px}.stat{background:#ffffff0d;border:1px solid #ffffff1c;padding:9px 13px;border-radius:12px;font-size:13px;color:#e6eaff}.stat strong{color:var(--gold)}
+.progress{height:8px;background:#ffffff19;border-radius:99px;overflow:hidden;margin:12px 0 20px}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--mint),var(--gold));transition:width .25s}
+.qmeta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tag{border-radius:999px;padding:6px 10px;background:#ffffff12;color:#e3e8ff;font-size:12px}.tag.focus{background:#ffd16622;color:#ffe5a1;border:1px solid #ffd16644}
+.qtext{font-size:clamp(19px,3vw,25px);line-height:1.9;margin:8px 0 20px}.timer-wrap{display:flex;align-items:center;gap:12px;margin:12px 0}.timer{font-weight:bold;color:var(--gold);font-size:16px;min-width:64px}.timerline{height:7px;background:#ffffff1b;border-radius:99px;flex:1;overflow:hidden}.timerbar{height:100%;background:var(--gold);width:100%;transition:width 1s linear}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:11px}.answer{font-family:inherit;text-align:right;color:#f8f9ff;background:#222e58;border:1px solid #ffffff23;border-radius:14px;padding:14px;line-height:1.8;font-size:15px;cursor:pointer}.answer:hover:not(:disabled){border-color:#a9baff;background:#2c3a70}.answer:disabled{cursor:default;opacity:1}.answer.correct{background:#124d47;border-color:var(--mint);color:#d8fff2}.answer.wrong{background:#57253c;border-color:var(--pink);color:#ffe2ea}
+.feedback{min-height:54px;background:#ffffff0b;border:1px solid #ffffff15;border-radius:13px;margin-top:15px;padding:12px 14px;line-height:1.9;color:#e8ecff;font-size:14px}.feedback.good{border-color:#5cf0c266}.feedback.bad{border-color:#ff729f66}
+.result{text-align:center}.bigscore{font-size:44px;font-weight:bold;color:var(--gold);margin:8px}.result p{line-height:1.9;color:#e2e7ff}.medals{font-size:45px;margin:10px}.result-list{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:right;margin:18px 0}.result-item{background:#ffffff0c;border:1px solid #ffffff18;border-radius:13px;padding:13px;line-height:1.8}.result-item b{display:block;color:var(--mint);margin-bottom:3px}
+footer{text-align:center;color:#9ca8d3;font-size:11px;padding:0 15px 20px}
+@media(max-width:600px){main{padding:17px}.top{padding:20px}.mode-grid,.level-grid{grid-template-columns:1fr}.tile{min-height:0}.answers{grid-template-columns:1fr}.result-list{grid-template-columns:1fr}.logo{font-size:38px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="brand"><div class="logo">🧪</div><div><h1>نبرد دانشمندان</h1><p class="sub">مسابقهٔ چهارجوابی علوم هشتم · شبیه بازی‌های کوئیزی</p></div></div></header>
+<main>
+<section class="screen active" id="home">
+<div class="eyebrow">آماده‌ای دانشمند؟</div>
+<p class="intro">در زمان محدود جواب بده، امتیاز بگیر و سطح خودت را بالا ببر! این نسخه روی نکته‌های صفحهٔ ۲۳ بیشتر تمرکز دارد و در کنارش از فصل‌های دیگر علوم هشتم هم سؤال می‌پرسد.</p>
+<div class="mode-grid">
+<button class="tile selected" data-mode="focus"><span class="emoji">🎯</span><b>تمرین صفحهٔ ۲۳</b><small>۸ پرسش دربارهٔ اتم، پروتون، الکترون و نوترون</small></button>
+<button class="tile" data-mode="mixed"><span class="emoji">🌍</span><b>مسابقهٔ کل کتاب</b><small>۱۰ پرسش از فصل‌های گوناگون علوم هشتم</small></button>
+<button class="tile" data-mode="boss"><span class="emoji">🏆</span><b>نبرد نهایی</b><small>۱۲ پرسش ترکیبی؛ بیشتر پرسش‌ها از صفحهٔ ۲۳</small></button>
+</div>
+<div class="eyebrow">سطح دشواری</div>
+<div class="level-grid">
+<button class="tile selected" data-level="easy"><span class="emoji">🌱</span><b>آسان</b><small>۲۰ ثانیه برای هر سؤال · مناسب یادگیری</small></button>
+<button class="tile" data-level="normal"><span class="emoji">⚡</span><b>متوسط</b><small>۱۵ ثانیه برای هر سؤال · چالش بیشتر</small></button>
+<button class="tile" data-level="hard"><span class="emoji">🔥</span><b>سخت</b><small>۱۰ ثانیه برای هر سؤال · امتیاز سرعت بیشتر</small></button>
+</div>
+<div class="note">💡 پیشنهاد: اول «تمرین صفحهٔ ۲۳» را بازی کن، بعد سراغ «نبرد نهایی» برو. در این بازی، سؤال‌های صفحهٔ ۲۳ سهم بیشتری دارند.</div>
+<div class="actions"><button class="btn btn-main" id="start">شروع مسابقه 🚀</button></div>
+</section>
+<section class="screen" id="game">
+<div class="stats"><span class="stat" id="qcount">سؤال ۱</span><span class="stat">⭐ امتیاز: <strong id="score">۰</strong></span><span class="stat">🔥 زنجیره: <strong id="streak">۰</strong></span></div>
+<div class="progress"><div class="bar" id="progress"></div></div>
+<div class="qmeta"><span class="tag focus" id="sourceTag">تمرکز صفحهٔ ۲۳</span><span class="tag" id="levelTag">آسان</span></div>
+<div class="timer-wrap"><span class="timer" id="timerText">۲۰ ثانیه</span><div class="timerline"><div class="timerbar" id="timerbar"></div></div></div>
+<div class="qtext" id="question"></div><div class="answers" id="answers"></div>
+<div class="feedback" id="feedback" aria-live="polite">یک گزینه را انتخاب کن!</div>
+<div class="actions"><button class="btn btn-main" id="next" hidden>سؤال بعدی ←</button><button class="btn btn-alt" id="quit">پایان مسابقه</button></div>
+</section>
+<section class="screen result" id="result">
+<div class="medals" id="medal">🏅</div><h2 id="resultTitle">نتیجهٔ مسابقه</h2><div class="bigscore" id="finalScore">۰</div><p id="resultMessage"></p>
+<div class="result-list"><div class="result-item"><b>پاسخ‌های درست</b><span id="correctCount"></span></div><div class="result-item"><b>بالاترین زنجیره</b><span id="bestStreak"></span></div><div class="result-item"><b>تمرین پیشنهادی</b><span id="advice"></span></div><div class="result-item"><b>مدال تو</b><span id="medalName"></span></div></div>
+<div class="actions" style="justify-content:center"><button class="btn btn-main" id="again">دوباره بازی کن ↻</button><button class="btn btn-alt" id="homeBtn">بازگشت به منو</button></div>
+</section>
+</main><footer>بازی آموزشی مستقل برای تمرین علوم هشتم · امتیازها در همین نوبت بازی محاسبه می‌شوند.</footer>
+</div>
+<script>
+const Q23=[
+{q:"عدد اتمی نئون چند است؟",a:["۸","۱۰","۱۲","۲۰"],c:1,e:"عدد اتمی نئون ۱۰ است؛ یعنی هستهٔ آن ۱۰ پروتون دارد.",src:"صفحهٔ ۲۳",d:0},
+{q:"اتم نئونِ خنثی چند الکترون دارد؟",a:["۸","۹","۱۰","۲۰"],c:2,e:"در اتم خنثی، تعداد الکترون‌ها با پروتون‌ها برابر است؛ پس نئون ۱۰ الکترون دارد.",src:"صفحهٔ ۲۳",d:0},
+{q:"کدام ذره بار الکتریکی مثبت دارد؟",a:["الکترون","نوترون","پروتون","مولکول"],c:2,e:"پروتون مثبت است، الکترون منفی است و نوترون بار الکتریکی ندارد.",src:"صفحهٔ ۲۳",d:0},
+{q:"بار الکتریکی الکترون چیست؟",a:["مثبت","منفی","بدون بار","گاهی مثبت و گاهی منفی"],c:1,e:"الکترون بار منفی دارد.",src:"صفحهٔ ۲۳",d:0},
+{q:"کدام ذره بار الکتریکی ندارد؟",a:["پروتون","الکترون","نوترون","هر سه"],c:2,e:"نوترون از نظر الکتریکی خنثی است.",src:"صفحهٔ ۲۳",d:0},
+{q:"اگر اتم نئون خنثی باشد، تعداد پروتون و الکترون آن چگونه است؟",a:["پروتون بیشتر است","الکترون بیشتر است","برابرند","هیچ‌کدام ندارد"],c:2,e:"اتم خنثی بار کلی ندارد؛ بنابراین تعداد پروتون و الکترون آن برابر است.",src:"صفحهٔ ۲۳",d:1},
+{q:"اگر ذره‌ای ۱۰ پروتون و ۱۰ الکترون داشته باشد، بار کلی آن چیست؟",a:["مثبت","منفی","خنثی","قابل تعیین نیست"],c:2,e:"بارهای مثبت و منفی برابر هم را خنثی می‌کنند.",src:"صفحهٔ ۲۳",d:1},
+{q:"کدام عبارت دربارهٔ اتم نئون درست است؟",a:["عدد اتمی آن ۱۰ است","الکترون بار مثبت دارد","نوترون بار منفی دارد","اتم خنثی پروتون ندارد"],c:0,e:"عدد اتمی نئون ۱۰ است. به یاد داشته باش: پروتون مثبت، الکترون منفی و نوترون خنثی است.",src:"صفحهٔ ۲۳",d:1},
+{q:"ذره‌های پروتون و نوترون در کجای اتم قرار دارند؟",a:["در هسته","در فضای بیرون اتم","فقط کنار الکترون","روی مدار بیرونی"],c:0,e:"پروتون و نوترون در هستهٔ اتم قرار دارند.",src:"اتم",d:1},
+{q:"اگر اتم خنثی ۶ پروتون داشته باشد، چند الکترون دارد؟",a:["۳","۶","۱۲","۰"],c:1,e:"در اتم خنثی تعداد الکترون و پروتون برابر است.",src:"اتم",d:1}
+];
+const BOOK=[
+{q:"برای جدا کردن برادهٔ آهن از مخلوط ماسه و آهن، کدام روش مناسب‌تر است؟",a:["صاف کردن","استفاده از آهن‌ربا","تقطیر","تبخیر"],c:1,e:"آهن‌ربا برادهٔ آهن را جذب می‌کند و به جداسازی مخلوط کمک می‌کند.",src:"فصل ۱: مخلوط‌ها",d:0},
+{q:"کدام مورد نمونه‌ای از تغییر شیمیایی است؟",a:["خرد شدن قند","ذوب شدن یخ","زنگ زدن آهن","بریدن کاغذ"],c:2,e:"در زنگ زدن، ماده‌های تازه تشکیل می‌شوند؛ پس تغییر شیمیایی است.",src:"فصل ۲: تغییرهای شیمیایی",d:0},
+{q:"کدام دستگاه بدن پیام‌های عصبی را منتقل و پردازش می‌کند؟",a:["دستگاه عصبی","دستگاه گوارش","دستگاه تنفس","دستگاه اسکلتی"],c:0,e:"مغز، نخاع و عصب‌ها بخش‌های مهم دستگاه عصبی‌اند.",src:"فصل ۴: تنظیم عصبی",d:0},
+{q:"کدام اندام برای دیدن نور به کار می‌رود؟",a:["گوش","چشم","پوست","زبان"],c:1,e:"چشم اندام حس بینایی است.",src:"فصل ۵: حس و حرکت",d:0},
+{q:"کدام وسیله در مدار ساده برای روشن شدن لامپ لازم است؟",a:["مدار بسته","مدار قطع","فقط یک سیم جدا","فقط آهن‌ربا"],c:0,e:"برای عبور جریان، مسیر مدار باید بسته باشد.",src:"فصل ۹: الکتریسیته",d:0},
+{q:"آهن‌ربا معمولاً کدام ماده را جذب می‌کند؟",a:["چوب","پلاستیک","آهن","شیشه"],c:2,e:"آهن از مواد جذب‌شونده به‌وسیلهٔ آهن‌رباست.",src:"فصل ۱۰: مغناطیس",d:0},
+{q:"سنگ‌ها از چه چیزی تشکیل شده‌اند؟",a:["فقط آب","کانی‌ها","فقط هوا","سلول‌ها"],c:1,e:"سنگ‌ها از یک یا چند کانی تشکیل شده‌اند.",src:"فصل ۱۲: سنگ‌ها",d:0},
+{q:"کدام گاز بخش عمدهٔ هوای زمین را تشکیل می‌دهد؟",a:["اکسیژن","کربن‌دی‌اکسید","نیتروژن","هیدروژن"],c:2,e:"بخش عمدهٔ هوا نیتروژن است؛ اکسیژن در رتبهٔ بعدی قرار دارد.",src:"فصل ۱۳: هواکره",d:0},
+{q:"نور در محیط یکنواخت معمولاً چگونه منتشر می‌شود؟",a:["در خط راست","فقط به شکل دایره","همیشه زیگزاگ","اصلاً منتشر نمی‌شود"],c:0,e:"نور در یک محیط یکنواخت به خط راست منتشر می‌شود.",src:"فصل ۱۴: نور",d:0},
+{q:"کدام بخش بدن پیام‌های عصبی را از مغز به اندام‌ها می‌رساند؟",a:["عصب‌ها","مینا","معده","ریه"],c:0,e:"عصب‌ها پیام‌های عصبی را بین دستگاه عصبی مرکزی و بخش‌های بدن منتقل می‌کنند.",src:"فصل ۴: تنظیم عصبی",d:1},
+{q:"تولیدمثل در جانداران چه نتیجهٔ مهمی دارد؟",a:["ادامهٔ نسل","توقف رشد همهٔ جانداران","ساخت نور","تولید سنگ"],c:0,e:"تولیدمثل باعث ادامهٔ نسل جانداران می‌شود.",src:"فصل ۸: تولیدمثل",d:0},
+{q:"در کدام تغییر، مادهٔ تازه‌ای به وجود می‌آید؟",a:["پاره کردن کاغذ","حل شدن یخ","سوختن چوب","خرد کردن سنگ"],c:2,e:"سوختن چوب تغییر شیمیایی است و مواد تازه‌ای تولید می‌کند.",src:"فصل ۲: تغییرهای شیمیایی",d:1}
+];
+const fa=n=>String(n).replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]);
+let mode="focus",level="easy",questions=[],idx=0,score=0,correct=0,streak=0,best=0,seconds=20,timer=null,locked=false,runToken=0;
+const el=id=>document.getElementById(id);
+function selectTiles(selector,attr){document.querySelectorAll(selector).forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(selector).forEach(x=>x.classList.remove("selected"));b.classList.add("selected");if(attr==="mode")mode=b.dataset.mode;else level=b.dataset.level;}))}
+selectTiles("[data-mode]","mode");selectTiles("[data-level]","level");
+function buildQuestions(){
+ let arr;
+ if(mode==="focus")arr=[...Q23.slice(0,8)];
+ if(mode==="mixed")arr=[...BOOK].sort(()=>Math.random()-.5).slice(0,10);
+ if(mode==="boss")arr=[...Q23.slice(0,8),...BOOK.slice(0,4)].sort((a,b)=>a.src.includes("صفحهٔ ۲۳")?-1:1);
+ if(mode==="mixed")arr=arr.sort(()=>Math.random()-.5);
+ return arr.map(q=>({...q}));
+}
+function start(){clearInterval(timer);runToken++;questions=buildQuestions();idx=0;score=0;correct=0;streak=0;best=0;show("game");renderQuestion();}
+function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));el(id).classList.add("active");}
+function renderQuestion(){
+ clearInterval(timer);locked=false;const q=questions[idx];
+ seconds=level==="easy"?20:level==="normal"?15:10;
+ el("qcount").textContent=`سؤال ${fa(idx+1)} از ${fa(questions.length)}`;
+ el("score").textContent=fa(score);el("streak").textContent=fa(streak);
+ el("progress").style.width=(idx/questions.length*100)+"%";
+ el("sourceTag").textContent=q.src.includes("صفحهٔ ۲۳")?"🎯 تمرکز صفحهٔ ۲۳":q.src;
+ el("sourceTag").className=q.src.includes("صفحهٔ ۲۳")?"tag focus":"tag";
+ el("levelTag").textContent=level==="easy"?"🌱 آسان":level==="normal"?"⚡ متوسط":"🔥 سخت";
+ el("question").textContent=q.q;el("feedback").textContent="یک گزینه را انتخاب کن!";el("feedback").className="feedback";el("next").hidden=true;el("answers").innerHTML="";
+ q.a.forEach((a,i)=>{const b=document.createElement("button");b.className="answer";b.textContent=["الف) ","ب) ","ج) ","د) "][i]+a;b.onclick=()=>choose(i);el("answers").appendChild(b)});
+ updateTimer();const token=runToken;
+ timer=setInterval(()=>{if(token!==runToken)return;seconds--;updateTimer();if(seconds<=0){clearInterval(timer);if(!locked)choose(-1,true)}},1000);
+}
+function updateTimer(){const max=level==="easy"?20:level==="normal"?15:10;el("timerText").textContent=fa(Math.max(0,seconds))+" ثانیه";el("timerbar").style.width=Math.max(0,seconds/max*100)+"%";el("timerbar").style.background=seconds<=5?"var(--pink)":"var(--gold)"}
+function choose(choice,timeout=false){
+ if(locked)return;locked=true;clearInterval(timer);const q=questions[idx];const buttons=[...el("answers").children];buttons.forEach((b,i)=>{b.disabled=true;if(i===q.c)b.classList.add("correct")});
+ const fb=el("feedback");
+ if(choice===q.c){correct++;streak++;best=Math.max(best,streak);const max=level==="easy"?20:level==="normal"?15:10;const speedBonus=Math.ceil(seconds/max*5);const chainBonus=Math.min(streak-1,5)*2;score+=10+speedBonus+chainBonus;fb.textContent="درست جواب دادی! ✨ "+q.e;fb.classList.add("good");}
+ else{streak=0;if(choice>=0)buttons[choice].classList.add("wrong");fb.textContent=(timeout?"زمان تمام شد! ⏰ ":"این پاسخ درست نیست. 💡 ")+q.e;fb.classList.add("bad")}
+ el("score").textContent=fa(score);el("streak").textContent=fa(streak);el("next").hidden=false;el("next").textContent=idx===questions.length-1?"دیدن نتیجه 🏆":"سؤال بعدی ←";
+}
+function next(){if(!locked)return;if(idx<questions.length-1){idx++;renderQuestion()}else finish()}
+function finish(){
+ clearInterval(timer);show("result");el("progress").style.width="100%";el("finalScore").textContent=fa(score)+" امتیاز";
+ const pct=correct/questions.length;let medal,title,msg;
+ if(pct>=.9){medal="🏆";title="قهرمان علوم!";msg="فوق‌العاده بود! دانشمند برتر این مسابقه‌ای."}
+ else if(pct>=.65){medal="🥇";title="دانشمند ماهر";msg="خیلی خوب پیش رفتی؛ چند تمرین دیگر تو را حرفه‌ای‌تر می‌کند."}
+ else if(pct>=.4){medal="🥈";title="پژوهشگر پرتلاش";msg="خوب تلاش کردی؛ پاسخ‌های توضیح‌دار را مرور کن و دوباره بازی کن."}
+ else{medal="🔬";title="شروع یک ماجراجویی";msg="هر اشتباه یک فرصت یادگیری است. از تمرین صفحهٔ ۲۳ شروع کن."}
+ el("medal").textContent=medal;el("resultTitle").textContent=title;el("resultMessage").textContent=msg;
+ el("correctCount").textContent=`${fa(correct)} از ${fa(questions.length)} سؤال`;el("bestStreak").textContent=fa(best)+" پاسخ درست پیاپی";
+ el("advice").textContent=mode==="mixed"?"فصل‌هایی را که اشتباه داشتی از کتاب مرور کن.":"عدد اتمی نئون و بار پروتون، الکترون و نوترون را مرور کن.";
+ el("medalName").textContent=medal+" "+title;
+}
+el("start").onclick=start;el("next").onclick=next;el("quit").onclick=finish;el("again").onclick=start;el("homeBtn").onclick=()=>{clearInterval(timer);runToken++;show("home")};
+</script>
+</body></html>

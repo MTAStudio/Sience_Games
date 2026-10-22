@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>ماموریت اتم | نسخه پیشرفته</title>
+<style>
+:root{--bg:#080f24;--panel:#111e3e;--panel2:#1a2d55;--cyan:#55f3df;--gold:#ffe477;--pink:#ff6f91;--text:#f5f7ff;--muted:#a9b9de}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% -10%,#233e70 0,#080f24 55%);color:var(--text);font-family:Tahoma,Arial,sans-serif;text-align:center;min-height:100vh}
+header{padding:13px 10px 8px;background:#0b1530d9;border-bottom:1px solid #38517c;position:sticky;top:0;z-index:5;backdrop-filter:blur(10px)}
+h1{margin:3px 0;color:var(--gold);font-size:clamp(22px,4vw,34px);text-shadow:0 0 18px #ffe47755}header p{margin:5px;color:var(--muted);font-size:13px}
+#hud{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:10px 8px}
+.badge{background:linear-gradient(135deg,#1b2f58,#111d3b);border:1px solid #38517c;border-radius:12px;padding:8px 12px;font-weight:bold;font-size:13px}
+.badge b{color:var(--cyan)}
+main{width:min(1100px,100%);margin:auto;padding:0 10px 20px}
+#gameWrap{position:relative;border:2px solid #55f3df;border-radius:18px;overflow:hidden;box-shadow:0 0 30px #55f3df1c;background:#7bd8ff}
+canvas{display:block;width:100%;height:auto;touch-action:none}
+#topActions{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px 0}
+button{font-family:inherit;border:1px solid #5575a9;border-radius:12px;padding:10px 15px;background:linear-gradient(135deg,#254675,#172a50);color:white;font-weight:bold;font-size:14px;cursor:pointer;touch-action:manipulation;transition:transform .12s,border-color .12s}
+button:hover{border-color:var(--cyan)}button:active{transform:scale(.96)}button.primary{background:linear-gradient(135deg,#65f5dc,#27bda9);color:#07172b;border-color:#8ffff0}button.gold{background:linear-gradient(135deg,#ffe98b,#f6b94d);color:#332407;border-color:#fff0a9}button.danger{background:linear-gradient(135deg,#a83c62,#632543)}
+#controls{display:flex;justify-content:center;align-items:center;gap:9px;flex-wrap:wrap;margin:10px auto 14px;direction:ltr}
+#controls button{min-width:58px;min-height:52px;font-size:22px;padding:8px 15px;user-select:none}
+#controls .jump{min-width:100px;background:linear-gradient(135deg,#ffe98b,#f6b94d);color:#332407}
+#panelGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:12px 0}
+.panel{background:linear-gradient(145deg,#17294c,#0e1934);border:1px solid #2e4775;border-radius:16px;padding:13px;text-align:right;min-height:95px}
+.panel h3{margin:0 0 7px;color:var(--cyan);font-size:15px}.panel p{margin:0;color:var(--muted);font-size:13px;line-height:1.9}
+#mission{background:#0c1834;border:1px solid #2c4777;border-radius:14px;padding:10px;margin:10px 0;color:#d9e7ff;line-height:1.8;font-size:13px}
+#message{min-height:42px;line-height:1.8;color:#d7e5ff;margin:8px auto}
+#overlay,#modal{display:flex;position:fixed;inset:0;z-index:20;background:#050a18ed;align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(7px)}
+#overlay.hidden,#modal.hidden{display:none}
+.card{width:min(640px,100%);max-height:92vh;overflow:auto;background:linear-gradient(145deg,#172b52,#0c1732);border:2px solid var(--cyan);border-radius:24px;padding:clamp(18px,4vw,30px);box-shadow:0 0 55px #55f3df1c;line-height:1.9}
+.card h2{margin:0 0 8px;color:var(--gold);font-size:clamp(23px,4vw,34px)}
+.credit{font-size:17px;color:var(--cyan);font-weight:bold;margin:12px 0}
+.small{font-size:12px;color:var(--muted)}
+#modalCard{width:min(580px,100%);background:linear-gradient(145deg,#1b315d,#101b38);border:2px solid var(--gold);border-radius:22px;padding:20px;line-height:1.9;max-height:90vh;overflow:auto}
+#modalTitle{color:var(--gold);margin:0 0 8px}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.answers button{text-align:right;line-height:1.7}
+#feedback{min-height:28px;color:var(--cyan);font-weight:bold}
+#builder{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:right}
+.builderbox{background:#0b1832;border:1px solid #354e7d;border-radius:14px;padding:12px}
+.builderbox h4{margin:0 0 8px;color:var(--cyan)}
+.stepper{display:flex;align-items:center;justify-content:space-between;gap:6px;margin:8px 0}
+.stepper button{padding:6px 12px}
+#atomPreview{min-height:115px;display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap}
+.particle{width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:bold;color:#071326;box-shadow:inset -4px -4px 0 #0002}
+.p{background:#ff6f91}.n{background:#aab9d5}.e{background:#55f3df}
+footer{padding:15px;color:#8197c5;font-size:12px;line-height:1.8}
+@media(max-width:760px){#panelGrid{grid-template-columns:1fr} .panel{min-height:auto}.answers{grid-template-columns:1fr}#builder{grid-template-columns:1fr}.badge{padding:7px 9px;font-size:12px}}
+</style>
+</head>
+<body>
+<header><h1>⚛️ ماموریت اتم</h1><p>نسخه پیشرفته • ماجراجویی آموزشی علوم هشتم • از درون اتم چه خبر؟</p></header>
+<div id="hud">
+ <div class="badge">⭐ امتیاز: <b id="score">0</b></div>
+ <div class="badge">💎 XP: <b id="xp">0</b></div>
+ <div class="badge">❤️ جان: <b id="lives">3</b></div>
+ <div class="badge">🧪 ذره‌ها: <b id="particles">0</b></div>
+ <div class="badge">🏅 مرحله: <b id="levelLabel">۱ از ۶</b></div>
+ <div class="badge">⏱️ زمان: <b id="timer">۰:۰۰</b></div>
+</div>
+<main>
+ <div id="gameWrap"><canvas id="game" width="960" height="500" aria-label="بازی ماموریت اتم"></canvas></div>
+ <div id="topActions">
+  <button class="primary" id="startBtn">▶ ادامه بازی</button><button id="pauseBtn">⏸ مکث</button>
+  <button id="quizBtn">🧠 آزمون سریع</button><button id="builderBtn">⚛️ اتم‌ساز</button>
+  <button id="soundBtn">🔊 صدا: روشن</button><button id="fullscreenBtn">⛶ تمام‌صفحه</button>
+  <button class="danger" id="restartBtn">↻ شروع دوباره</button>
+ </div>
+ <div id="controls">
+  <button id="leftBtn" aria-label="حرکت به چپ">◀</button><button id="rightBtn" aria-label="حرکت به راست">▶</button><button id="jumpBtn" class="jump">پرش ⤴</button>
+ </div>
+ <div id="mission">🎯 مأموریت: ذره‌های درخشان را جمع کن، از موانع بگذر و در پایان هر مرحله دروازه را باز کن.</div>
+ <div id="message">برای شروع روی «شروع مأموریت» بزن. با کلیدهای جهت‌دار حرکت کن و با Space بپر.</div>
+ <div id="panelGrid">
+  <div class="panel"><h3>🔴 پروتون</h3><p>بار الکتریکی مثبت دارد و در هسته اتم قرار می‌گیرد.</p></div>
+  <div class="panel"><h3>⚪ نوترون</h3><p>بار الکتریکی ندارد و همراه پروتون‌ها در هسته است.</p></div>
+  <div class="panel"><h3>🔵 الکترون</h3><p>بار الکتریکی منفی دارد و در اطراف هسته قرار می‌گیرد.</p></div>
+ </div>
+</main>
+<footer>این بازی آموزشی و آفلاین است. پیشرفت و XP روی همین دستگاه ذخیره می‌شود. اطلاعات علمی به زبان ساده و متناسب با علوم هشتم ارائه شده‌اند.</footer>
+
+<div id="overlay"><div class="card">
+ <h2>⚛️ ماموریت اتم</h2><p>آماده‌ای اتم‌ها را نجات بدهی؟ از ۶ منطقه عبور کن، دانش علمی‌ات را امتحان کن و با ساخت اتم، جایزه بگیر.</p>
+ <div class="credit">کاری از امیرمهدی احمدزاده</div>
+ <p class="small">کنترل رایانه: ← → یا A/D برای حرکت، Space یا ↑ برای پرش، P برای مکث. موبایل: دکمه‌های پایین صفحه.</p>
+ <button class="primary" id="beginBtn">🚀 شروع مأموریت</button>
+ <button id="continueBtn">📂 ادامه از آخرین مرحله</button>
+ <button id="howBtn">📘 راهنمای بازی</button>
+ <p class="small">هدف: یادگیری تفاوت پروتون، نوترون و الکترون و آشنایی با خنثی بودن اتم.</p>
+</div></div>
+
+<div id="modal" class="hidden"><div id="modalCard">
+ <h2 id="modalTitle">آزمون دانشمند</h2><div id="modalBody"></div><div id="feedback"></div>
+ <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:10px"><button id="closeModal">بستن</button><button class="primary" id="nextModal" style="display:none">ادامه</button></div>
+</div></div>
+
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id), canvas=$('game'),ctx=canvas.getContext('2d');
+const W=960,H=500, ground=420;
+let running=false,paused=false,gameOver=false,won=false,soundOn=true,audioCtx=null,last=0,elapsed=0;
+let score=0,xp=Number(localStorage.getItem('atomXP')||0),lives=3,particleCount=0,level=0,camera=0,frame=0;
+const faNums=n=>String(n).replace(/\d/g,d=>'۰۱۲۳۴۵۶۷۸۹'[+d]);
+const levelNames=['جنگل اتمی','غار پروتون‌ها','آزمایشگاه ذرات','مدارهای الکترونی','سیاره ایزوتوپ‌ها','قلعه غول اتم'];
+const levelColors=[['#76dcff','#238c78'],['#171b43','#4d4c92'],['#b6e7ff','#436c9b'],['#2d235b','#6246a5'],['#ffd7a3','#b85d7c'],['#301e4d','#c24c79']];
+let player, platforms, pickups, enemies, gate, boss, quizTokens, levelWidth;
+const quizBank=[
+ {q:'کدام ذره بار الکتریکی مثبت دارد؟',a:['پروتون','نوترون','الکترون','هیچ‌کدام'],c:0,why:'پروتون بار مثبت دارد و در هسته قرار می‌گیرد.'},
+ {q:'کدام ذره از نظر بار الکتریکی خنثی است؟',a:['پروتون','نوترون','الکترون','همه مثبت‌اند'],c:1,why:'نوترون بار الکتریکی ندارد.'},
+ {q:'الکترون چه باری دارد؟',a:['مثبت','خنثی','منفی','دو بار مثبت'],c:2,why:'الکترون بار منفی دارد.'},
+ {q:'پروتون و نوترون بیشتر در کجای اتم‌اند؟',a:['هسته','مدار بیرونی','بیرون اتم','روی الکترون'],c:0,why:'پروتون‌ها و نوترون‌ها در هسته اتم هستند.'},
+ {q:'در یک اتم خنثی چه رابطه‌ای میان پروتون و الکترون برقرار است؟',a:['پروتون‌ها بیشترند','الکترون‌ها بیشترند','تعدادشان برابر است','هیچ رابطه‌ای ندارند'],c:2,why:'در اتم خنثی، تعداد پروتون‌ها و الکترون‌ها برابر است.'},
+ {q:'اگر اتمی ۶ پروتون داشته باشد، بار هسته آن چگونه است؟',a:['مثبت','منفی','خنثی','بدون بار و ذره'],c:0,why:'پروتون‌ها مثبت‌اند، بنابراین بار هسته مثبت است.'},
+ {q:'کدام ذره در اطراف هسته قرار دارد؟',a:['پروتون','نوترون','الکترون','همه فقط در هسته‌اند'],c:2,why:'الکترون‌ها در اطراف هسته قرار دارند.'},
+ {q:'عدد اتمی یک عنصر با چه چیزی مشخص می‌شود؟',a:['تعداد نوترون‌ها','تعداد پروتون‌ها','تعداد مدارها','اندازه اتم'],c:1,why:'عدد اتمی برابر تعداد پروتون‌های هسته است.'},
+ {q:'کدام گزینه درست است؟',a:['نوترون بار منفی دارد','الکترون مثبت است','پروتون مثبت است','هسته فقط الکترون دارد'],c:2,why:'پروتون بار مثبت دارد.'},
+ {q:'اگر اتم خنثی ۸ پروتون داشته باشد، چند الکترون دارد؟',a:['۴','۸','۱۶','۰'],c:1,why:'برای خنثی بودن اتم، تعداد الکترون‌ها با پروتون‌ها برابر است.'}
+];
+function beep(freq=550,dur=.09,type='sine'){if(!soundOn)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.value=freq;g.gain.value=.045;o.connect(g);g.connect(audioCtx.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur);o.stop(audioCtx.currentTime+dur)}catch(e){}}
+function setMessage(t){$('message').textContent=t}
+function hud(){ $('score').textContent=faNums(score);$('xp').textContent=faNums(xp);$('lives').textContent='❤️'.repeat(Math.max(0,lives))||'۰';$('particles').textContent=faNums(particleCount);$('levelLabel').textContent=faNums(level+1)+' از ۶';$('timer').textContent=faNums(Math.floor(elapsed/60))+':'+faNums(String(Math.floor(elapsed%60)).padStart(2,'0'));$('mission').textContent='🎯 منطقه '+(level+1)+': '+levelNames[level]+' — '+(level===5?'غول اتم را سه بار شکست بده!':'ذره‌ها را جمع کن و به دروازه نورانی برس.')+'  |  هر پاسخ درست: ۵۰ امتیاز';}
+function makeLevel(i){
+ level=i;camera=0;levelWidth=2400+i*160;
+ player={x:60,y:ground-48,w:34,h:46,vx:0,vy:0,onGround:false,inv:0,face:1};
+ platforms=[{x:0,y:ground,w:levelWidth,h:100}];
+ let seed=17+i*99;function rand(){seed=(seed*16807)%2147483647;return(seed-1)/2147483646}
+ let x=180;
+ while(x<levelWidth-300){let gap=rand()<.2?70:0;let py=ground-70-Math.floor(rand()*125);platforms.push({x:x+gap,y:py,w:90+Math.floor(rand()*90),h:18});x+=190+Math.floor(rand()*115)}
+ pickups=[];for(let px=145;px<levelWidth-140;px+=100+Math.floor(rand()*85)){let p=platforms.filter(a=>a.x<=px&&a.x+a.w>px&&a.y<ground);let py=p.length?p[p.length-1].y-28:ground-42-Math.floor(rand()*100);pickups.push({x:px,y:py,r:11,type:['p','n','e'][Math.floor(rand()*3)],got:false,phase:rand()*6})}
+ enemies=[];for(let ex=420;ex<levelWidth-300;ex+=360+Math.floor(rand()*150)){enemies.push({x:ex,y:ground-30,w:30,h:30,vx:rand()<.5?-1.2:1.2,min:ex-65,max:ex+85,alive:true})}
+ gate={x:levelWidth-110,y:ground-88,w:45,h:88};
+ quizTokens=[];for(let qx=600;qx<levelWidth-250;qx+=620)quizTokens.push({x:qx,y:ground-65,used:false});
+ boss=i===5?{x:levelWidth-330,y:ground-100,w:75,h:100,hp:3,dir:-1,hit:0}:null;
+ if(i===5)enemies.push({x:levelWidth-520,y:ground-34,w:34,h:34,vx:1.1,min:levelWidth-620,max:levelWidth-440,alive:true});
+ hud();setMessage('منطقه '+(i+1)+' شروع شد: '+levelNames[i]+'!');
+}
+function reset(){score=0;lives=3;particleCount=0;elapsed=0;gameOver=won=false;makeLevel(0);running=true;paused=false;$('overlay').classList.add('hidden');$('modal').classList.add('hidden');hud();beep(660)}
+function save(){localStorage.setItem('atomXP',String(xp));localStorage.setItem('atomLevel',String(level))}
+function jump(){if(!running||paused||gameOver||$('modal').classList.contains('hidden')===false)return;if(player.onGround){player.vy=-11.8;player.onGround=false;beep(420,.07)}}
+function move(dir){if(!running||paused||gameOver)return;player.vx=dir*4.1;player.face=dir}
+const keys={};window.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','ArrowUp',' ','a','d','A','D','p','P'].includes(e.key))e.preventDefault();keys[e.key]=true;if(e.key===' '||e.key==='ArrowUp')jump();if(e.key==='p'||e.key==='P')togglePause();if(e.key==='Escape'&&!$('modal').classList.contains('hidden'))closeModal()});
+window.addEventListener('keyup',e=>keys[e.key]=false);
+function bindHold(id,dir){const el=$(id);let timer;const start=e=>{e.preventDefault();move(dir);timer=setInterval(()=>move(dir),35)},end=()=>{clearInterval(timer);if(player)player.vx=0};el.addEventListener('pointerdown',start);['pointerup','pointerleave','pointercancel'].forEach(ev=>el.addEventListener(ev,end))}
+bindHold('leftBtn',-1);bindHold('rightBtn',1);$('jumpBtn').addEventListener('pointerdown',e=>{e.preventDefault();jump()});
+$('beginBtn').onclick=reset;$('startBtn').onclick=()=>{if(gameOver||won)reset();else{running=true;paused=false;$('overlay').classList.add('hidden');setMessage('مأموریت ادامه دارد!')}};$('continueBtn').onclick=()=>{let saved=Number(localStorage.getItem('atomLevel')||0);reset();makeLevel(Math.max(0,Math.min(5,saved)));};
+$('restartBtn').onclick=()=>{reset()};$('pauseBtn').onclick=togglePause;
+function togglePause(){if(!running||gameOver||won)return;paused=!paused;$('pauseBtn').textContent=paused?'▶ ادامه':'⏸ مکث';setMessage(paused?'بازی متوقف شد. برای ادامه روی «ادامه» بزن.':'بازی ادامه دارد.')}
+$('soundBtn').onclick=()=>{soundOn=!soundOn;$('soundBtn').textContent=soundOn?'🔊 صدا: روشن':'🔇 صدا: خاموش';if(soundOn)beep(700)};
+$('fullscreenBtn').onclick=()=>{let el=$('gameWrap');if(!document.fullscreenElement){el.requestFullscreen?.()}else document.exitFullscreen?.()};
+$('howBtn').onclick=()=>showModal('📘 راهنمای بازی',`<p>• با کلیدهای جهت‌دار یا دکمه‌های لمسی حرکت کن.</p><p>• روی سکوها بپر و ذره‌های پروتون، نوترون و الکترون را جمع کن.</p><p>• دشمن‌ها را با فرود آمدن از بالا شکست بده؛ برخورد از کنار جان کم می‌کند.</p><p>• نشان 🧠 تو را به پرسش علمی می‌برد. در منطقه آخر، روی غول بپر تا سه بار آسیب ببیند.</p><p>• در اتم‌ساز می‌توانی تعداد ذرات را تغییر بدهی و خنثی بودن اتم را بررسی کنی.</p>`);
+$('quizBtn').onclick=()=>askQuiz();
+$('builderBtn').onclick=()=>openBuilder();
+function showModal(title,body){$('modalTitle').textContent=title;$('modalBody').innerHTML=body;$('feedback').textContent='';$('nextModal').style.display='none';$('modal').classList.remove('hidden')}
+function closeModal(){$('modal').classList.add('hidden')}
+$('closeModal').onclick=closeModal;
+function askQuiz(){let q=quizBank[Math.floor(Math.random()*quizBank.length)];showModal('🧠 آزمون دانشمند',`<p>${q.q}</p><div class="answers">${q.a.map((a,i)=>`<button data-i="${i}">${['الف','ب','ج','د'][i]}) ${a}</button>`).join('')}</div>`);document.querySelectorAll('.answers button').forEach(b=>b.onclick=()=>{let ok=+b.dataset.i===q.c;if(ok){score+=50;xp+=10;hud();beep(880,.15);$('feedback').textContent='آفرین! پاسخ درست است. '+q.why;setMessage('پاسخ درست! +۵۰ امتیاز و +۱۰ XP');save()}else{lives=Math.max(0,lives-1);hud();beep(180,.2,'triangle');$('feedback').textContent='این بار نه! '+q.why;setMessage('پاسخ نادرست بود؛ یک جان کم شد.');if(lives===0){setTimeout(endGame,700)}}document.querySelectorAll('.answers button').forEach(x=>x.disabled=true);$('nextModal').style.display='inline-block';$('nextModal').textContent='ادامه بازی';$('nextModal').onclick=closeModal})}
+let build={p:3,n:4,e:3};
+function openBuilder(){renderBuilder();showModal('⚛️ آزمایشگاه اتم‌ساز','');$('modalBody').innerHTML=builderHTML();renderBuilder()}
+function builderHTML(){return `<p>تعداد ذرات را تغییر بده و ببین اتم خنثی است یا یون. در مدل ساده، پروتون مثبت، نوترون خنثی و الکترون منفی است.</p><div id="builder"><div class="builderbox"><h4>🔴 پروتون (+)</h4><div class="stepper"><button data-change="p,-1">−</button><b id="bp">${build.p}</b><button data-change="p,1">+</button></div><h4>⚪ نوترون (۰)</h4><div class="stepper"><button data-change="n,-1">−</button><b id="bn">${build.n}</b><button data-change="n,1">+</button></div><h4>🔵 الکترون (−)</h4><div class="stepper"><button data-change="e,-1">−</button><b id="be">${build.e}</b><button data-change="e,1">+</button></div></div><div class="builderbox"><h4>نمایش ذره‌ها</h4><div id="atomPreview"></div><p id="atomResult"></p><button class="gold" id="balanceBtn">برابر کردن الکترون و پروتون</button></div></div>`}
+function renderBuilder(){let p=$('bp'),n=$('bn'),e=$('be');if(!p)return;p.textContent=build.p;n.textContent=build.n;e.textContent=build.e;let prev=$('atomPreview');prev.innerHTML='';for(let i=0;i<Math.min(build.p,6);i++)prev.innerHTML+='<span class="particle p">+</span>';for(let i=0;i<Math.min(build.n,6);i++)prev.innerHTML+='<span class="particle n">۰</span>';for(let i=0;i<Math.min(build.e,6);i++)prev.innerHTML+='<span class="particle e">−</span>';let net=build.p-build.e;$('atomResult').innerHTML=`بار خالص: <b style="color:${net===0?'#55f3df':'#ffe477'}">${net===0?'خنثی':net>0?'مثبت ('+net+')':'منفی ('+Math.abs(net)+')'}</b><br>عدد اتمی: <b>${build.p}</b><br><span class="small">${net===0?'تعداد پروتون و الکترون برابر است.':net>0?'پروتون‌ها از الکترون‌ها بیشترند.':'الکترون‌ها از پروتون‌ها بیشترند.'}</span>`;document.querySelectorAll('[data-change]').forEach(b=>b.onclick=()=>{let [k,d]=b.dataset.change.split(',');build[k]=Math.max(0,Math.min(10,build[k]+Number(d)));renderBuilder()});$('balanceBtn').onclick=()=>{build.e=build.p;renderBuilder();score+=25;xp+=5;hud();save();beep(780);};}
+function collect(p){p.got=true;particleCount++;score+=10;xp+=1;if(particleCount%5===0){score+=25;setMessage('ترکیب عالی! پنج ذره جمع کردی؛ جایزه +۲۵');beep(950,.13)}else beep(p.type==='p'?650:p.type==='n'?500:780,.06);hud();save()}
+function loseLife(){if(player.inv>0)return;lives--;player.inv=100;player.vy=-5;beep(140,.25,'sawtooth');hud();if(lives<=0)endGame();else setMessage('اوه! برخورد کردی؛ یک جان باقی نماند؟ مراقب باش!')}
+function endGame(){running=false;gameOver=true;showOverlay('پایان مأموریت','این بار موفق نشدی، اما دانشمندها با تمرین بهتر می‌شوند! امتیاز: '+score+' | XP کل: '+xp,'دوباره تلاش می‌کنم')}
+function showOverlay(title,desc,btn){$('overlay').classList.remove('hidden');$('overlay').querySelector('h2').textContent=title;$('overlay').querySelector('p').textContent=desc;$('beginBtn').textContent='🚀 '+btn;$('beginBtn').onclick=reset;$('continueBtn').style.display='none';$('howBtn').style.display='none'}
+function finishLevel(){if(level<5){score+=200;xp+=20;save();let old=level;makeLevel(level+1);player.x=60;camera=0;hud();setMessage('عالی بود! منطقه کامل شد: +۲۰۰ امتیاز و +۲۰ XP');showModal('🏅 مرحله کامل شد!',`<p>از ${levelNames[old]} عبور کردی!</p><p>جایزه: +۲۰۰ امتیاز و +۲۰ XP</p><p>مرحله بعد: <b>${levelNames[level]}</b></p>`);$('nextModal').style.display='inline-block';$('nextModal').textContent='رفتن به مرحله بعد';$('nextModal').onclick=closeModal;beep(850,.2)}else{running=false;won=true;score+=500;xp+=100;save();hud();showOverlay('🏆 قهرمان اتم‌ها شدی!',`همه ۶ منطقه را کامل کردی! امتیاز نهایی: ${score} — XP ذخیره‌شده: ${xp}. حالا می‌توانی با اتم‌ساز دانش خودت را امتحان کنی.`,'بازی دوباره');$('continueBtn').style.display='inline-block';$('howBtn').style.display='inline-block';beep(1000,.3)}}
+function update(dt){if(!running||paused||gameOver||won||!player||!$('modal').classList.contains('hidden'))return;frame++;elapsed+=dt;let dir=(keys.ArrowRight||keys.d||keys.D?1:0)-(keys.ArrowLeft||keys.a||keys.A?1:0);if(dir){player.vx=dir*4.1;player.face=dir}else if(!document.pointerLockElement){player.vx*=.72;if(Math.abs(player.vx)<.2)player.vx=0}
+player.vy+=.55;player.x+=player.vx;player.y+=player.vy;player.x=Math.max(0,Math.min(levelWidth-player.w,player.x));player.onGround=false;
+for(const pl of platforms){if(player.vy>=0&&player.x+player.w>pl.x&&player.x<pl.x+pl.w&&player.y+player.h>=pl.y&&player.y+player.h<=pl.y+Math.max(18,player.vy+5)){player.y=pl.y-player.h;player.vy=0;player.onGround=true}}
+if(player.y>H+100){loseLife();player.x=Math.max(50,player.x-100);player.y=ground-100;player.vy=0}
+if(player.inv>0)player.inv--;
+for(const p of pickups){if(!p.got&&Math.hypot(player.x+player.w/2-p.x,player.y+player.h/2-p.y)<28)collect(p)}
+for(const q of quizTokens){if(!q.used&&Math.abs(player.x-q.x)<25&&Math.abs(player.y-q.y)<70){q.used=true;askQuiz();beep(730)}}
+for(const e of enemies){if(!e.alive)continue;e.x+=e.vx;if(e.x<e.min||e.x>e.max)e.vx*=-1;if(player.x+player.w>e.x&&player.x<e.x+e.w&&player.y+player.h>e.y&&player.y<e.y+e.h){if(player.vy>1&&player.y+player.h-e.y<22){e.alive=false;player.vy=-8;score+=40;xp+=3;hud();beep(720)}else loseLife()}}
+if(boss){boss.x+=boss.dir*1.1;if(boss.x<levelWidth-440||boss.x>levelWidth-220)boss.dir*=-1;if(boss.hit>0)boss.hit--;if(player.x+player.w>boss.x&&player.x<boss.x+boss.w&&player.y+player.h>boss.y&&player.y<boss.y+boss.h){if(player.vy>1&&player.y+player.h-boss.y<26){boss.hp--;boss.hit=70;player.vy=-10;score+=100;xp+=10;hud();beep(250,.18,'square');if(boss.hp<=0){boss=null;score+=300;setMessage('غول اتم شکست خورد! به دروازه نهایی برو!')}}else if(!boss.hit)loseLife()}}
+if(player.x>gate.x-12){if(level===5&&boss){setMessage('اول غول اتم را سه بار از بالا شکست بده!');player.x=gate.x-70}else finishLevel()}
+camera=Math.max(0,Math.min(levelWidth-W,player.x-W*.34));hud();}
+function rounded(x,y,w,h,r,color){ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
+function drawAtom(cx,cy,scale=1){ctx.save();ctx.translate(cx,cy);ctx.scale(scale,scale);ctx.strokeStyle='#ffffff77';ctx.lineWidth=2;for(let i=0;i<3;i++){ctx.beginPath();ctx.ellipse(0,0,22,8,i*Math.PI/3,0,Math.PI*2);ctx.stroke()}ctx.fillStyle='#ff6f91';ctx.beginPath();ctx.arc(0,0,7,0,Math.PI*2);ctx.fill();ctx.restore()}
+function draw(){let bg=levelColors[level]||levelColors[0];let gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,bg[0]);gr.addColorStop(1,bg[1]);ctx.fillStyle=gr;ctx.fillRect(0,0,W,H);
+for(let i=0;i<16;i++){let sx=((i*113-camera*.18)%1100+1100)%1100;ctx.fillStyle='#ffffff18';ctx.beginPath();ctx.arc(sx,40+(i*47)%260,2+(i%3),0,Math.PI*2);ctx.fill()}
+if(level===0||level===2){for(let i=0;i<8;i++){let tx=((i*180-camera*.4)%1100+1100)%1100;ctx.fillStyle=level===0?'#176b6b':'#4675a0';ctx.beginPath();ctx.moveTo(tx,ground);ctx.lineTo(tx+65,ground-150-(i%3)*20);ctx.lineTo(tx+135,ground);ctx.fill()}}
+ctx.save();ctx.translate(-camera,0);
+for(const pl of platforms){if(pl.y===ground){ctx.fillStyle='#172c46';ctx.fillRect(pl.x,pl.y,pl.w,pl.h);ctx.fillStyle='#65d69b';ctx.fillRect(pl.x,pl.y,pl.w,12);for(let x=pl.x;x<pl.x+pl.w;x+=45){ctx.fillStyle='#ffffff0b';ctx.fillRect(x,pl.y+20,22,5)}}else{rounded(pl.x,pl.y,pl.w,pl.h,7,'#d8f3ff');rounded(pl.x,pl.y,pl.w,5,4,'#55f3df')}}
+for(const p of pickups){if(p.got)continue;let yy=p.y+Math.sin(frame*.08+p.phase)*4;ctx.beginPath();ctx.arc(p.x,yy,p.r+3,0,Math.PI*2);ctx.fillStyle=p.type==='p'?'#ff6f91':p.type==='n'?'#d8e0f4':'#55f3df';ctx.shadowBlur=14;ctx.shadowColor=ctx.fillStyle;ctx.fill();ctx.shadowBlur=0;ctx.fillStyle='#071326';ctx.font='bold 13px Tahoma';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(p.type==='p'?'+':p.type==='n'?'0':'−',p.x,yy)}
+for(const q of quizTokens){if(q.used)continue;drawAtom(q.x,q.y,.8);ctx.fillStyle='#fff';ctx.font='bold 12px Tahoma';ctx.textAlign='center';ctx.fillText('?',q.x,q.y+27)}
+for(const e of enemies){if(!e.alive)continue;rounded(e.x,e.y,e.w,e.h,8,'#632d71');rounded(e.x+5,e.y+5,e.w-10,12,5,'#ff6f91');ctx.fillStyle='#fff';ctx.fillRect(e.x+7,e.y+14,5,5);ctx.fillRect(e.x+19,e.y+14,5,5)}
+if(boss){rounded(boss.x,boss.y,boss.w,boss.h,14,boss.hit?'#fff':'#7b2457');ctx.fillStyle='#ffe477';ctx.fillRect(boss.x+13,boss.y+22,14,10);ctx.fillRect(boss.x+48,boss.y+22,14,10);ctx.fillStyle='#fff';ctx.fillRect(boss.x+20,boss.y+25,4,4);ctx.fillRect(boss.x+53,boss.y+25,4,4);ctx.fillStyle='#25132e';ctx.fillRect(boss.x+24,boss.y+55,30,7);ctx.fillStyle='#fff';ctx.font='bold 13px Tahoma';ctx.textAlign='center';ctx.fillText('غول اتم',boss.x+boss.w/2,boss.y-10);for(let i=0;i<3;i++){ctx.fillStyle=i<boss.hp?'#ff6f91':'#ffffff44';ctx.fillRect(boss.x+13+i*17,boss.y-27,13,7)}}
+ctx.save();ctx.translate(gate.x,gate.y);ctx.strokeStyle='#ffe477';ctx.lineWidth=5;ctx.shadowBlur=18;ctx.shadowColor='#ffe477';ctx.strokeRect(0,0,gate.w,gate.h);ctx.fillStyle='#fff2a8';ctx.fillRect(9,8,gate.w-18,gate.h-16);ctx.restore();ctx.shadowBlur=0;
+if(player){if(player.inv%12<7){rounded(player.x,player.y,player.w,player.h,9,'#172f61');rounded(player.x+5,player.y+5,player.w-10,13,5,'#55f3df');ctx.fillStyle='#fff';ctx.fillRect(player.x+(player.face>0?22:7),player.y+12,5,5);ctx.fillStyle='#ffe477';ctx.fillRect(player.x+5,player.y+player.h-7,10,7);ctx.fillRect(player.x+20,player.y+player.h-7,10,7);ctx.fillStyle='#ff6f91';ctx.fillRect(player.x+9,player.y-5,16,6)}}
+ctx.restore();
+ctx.fillStyle='#08142a99';ctx.fillRect(12,12,260,34);ctx.fillStyle='#fff';ctx.font='bold 15px Tahoma';ctx.textAlign='right';ctx.fillText('منطقه: '+levelNames[level],260,34);
+if(level===5&&boss){ctx.fillStyle='#11172acc';ctx.fillRect(W-230,12,215,34);ctx.fillStyle='#ffe477';ctx.textAlign='center';ctx.fillText('سلامت غول: '+boss.hp+' / ۳',W-122,34)}
+if(paused){ctx.fillStyle='#071020aa';ctx.fillRect(0,0,W,H);ctx.fillStyle='#fff';ctx.textAlign='center';ctx.font='bold 42px Tahoma';ctx.fillText('بازی متوقف است',W/2,H/2)}
+}
+function loop(ts){let dt=Math.min(.05,(ts-last)/1000||0);last=ts;if(running&&!paused&&!gameOver&&!won&&!$('modal').classList.contains('hidden')){}else if(running&&!paused&&!gameOver&&!won)update(dt);draw();requestAnimationFrame(loop)}
+makeLevel(0);running=false;player.x=60;player.y=ground-player.h;hud();requestAnimationFrame(loop);
+})();
+</script>
+</body></html>
