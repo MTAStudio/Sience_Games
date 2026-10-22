@@ -5,3 +5,13 @@ window.APP_CONFIG = {
   SUPABASE_URL: "https://tgqziifohrzjajakhxwa.supabase.co",       // مثال: https://abcdxyz.supabase.co
   SUPABASE_ANON_KEY: "sb_publishable_NVv9igE_URu-B5Og6Hh5Qg_EaayQytf"   // کلید anon / publishable
 };
+async function refreshStatus(){
+  try{
+    const s = await api.status();
+    if (s && typeof s.ended === 'boolean'){
+      poll = {ended:s.ended, winners:s.winners||[]};
+      if (!poll.ended){ try{ const r = await api.my(); myVote = (r && r.project) || null; }catch(e){} }
+      draw();
+    }
+  }catch(e){}
+}
